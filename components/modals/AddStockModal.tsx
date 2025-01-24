@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -42,6 +42,8 @@ export default function AddStockModal({
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
+		watch,
+		setValue,
 	} = useForm<AddStockTypes>({
 		resolver: zodResolver(addStockSchema),
 		defaultValues: {
@@ -49,6 +51,15 @@ export default function AddStockModal({
 			quantity: currentStock,
 		},
 	});
+
+	const handleQuantityChange = useCallback(
+		(change: number) => {
+			const currentValue = Number(watch("quantity")) || 0;
+			const newValue = Math.max(0, currentValue + change);
+			setValue("quantity", newValue);
+		},
+		[watch, setValue]
+	);
 
 	const onSubmit = async (data: AddStockTypes) => {
 		setServerError(null);
@@ -95,7 +106,7 @@ export default function AddStockModal({
 									type="button"
 									variant="outlineIcon"
 									className="h-10 w-10 flex justify-center items-center text-lg font-bold"
-									onClick={() => {}}>
+									onClick={() => handleQuantityChange(-1)}>
 									-
 								</Button>
 								<Input
@@ -105,12 +116,13 @@ export default function AddStockModal({
 									{...register("quantity", {
 										valueAsNumber: true,
 									})}
+									disabled
 								/>
 								<Button
 									type="button"
 									variant="outlineIcon"
 									className="h-10 w-10 flex justify-center items-center text-lg font-bold"
-									onClick={() => {}}>
+									onClick={() => handleQuantityChange(1)}>
 									+
 								</Button>
 							</div>

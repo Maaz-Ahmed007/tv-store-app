@@ -71,7 +71,7 @@ export default function UpdateProductModal({
 			<ModalTrigger asChild>
 				<Button
 					variant="blue"
-                    size="sm"
+					size="sm"
 					className="tracking-tight leading-none gap-1">
 					<PencilRuler />
 					Edit
@@ -85,17 +85,17 @@ export default function UpdateProductModal({
 							Update the details of the new TV product here.
 						</ModalDescription>
 					</ModalHeader>
-					<div className="grid gap-4 py-4">
+					<div className="flex flex-col space-y-4 py-4">
 						{serverError && (
 							<p className="text-red-500">{serverError}</p>
 						)}
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="name" className="text-right">
+						<div className="flex justify-center items-center gap-4">
+							<Label htmlFor="name" className="text-start w-24">
 								Name
 							</Label>
 							<Input
 								id="name"
-								className="col-span-3"
+								className="text-sm"
 								{...register("name")}
 							/>
 							{errors.name && (
@@ -104,13 +104,15 @@ export default function UpdateProductModal({
 								</p>
 							)}
 						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="description" className="text-right">
-								Description
+						<div className="flex justify-center items-center gap-4">
+							<Label
+								htmlFor="description"
+								className="text-start w-24">
+								Details
 							</Label>
 							<Input
 								id="description"
-								className="col-span-3"
+								className="text-sm"
 								{...register("description")}
 							/>
 							{errors.name && (
@@ -119,13 +121,13 @@ export default function UpdateProductModal({
 								</p>
 							)}
 						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="size" className="text-right">
+						<div className="flex justify-center items-center gap-4">
+							<Label htmlFor="size" className="text-start w-24">
 								Size
 							</Label>
 							<Input
 								id="size"
-								className="col-span-3"
+								className="text-sm"
 								{...register("size")}
 							/>
 							{errors.size && (
@@ -134,13 +136,13 @@ export default function UpdateProductModal({
 								</p>
 							)}
 						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="panel" className="text-right">
+						<div className="flex justify-center items-center gap-4">
+							<Label htmlFor="panel" className="text-start w-24">
 								Panel
 							</Label>
 							<Input
 								id="panel"
-								className="col-span-3"
+								className="text-sm"
 								{...register("panel")}
 							/>
 							{errors.panel && (
@@ -149,13 +151,15 @@ export default function UpdateProductModal({
 								</p>
 							)}
 						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="company" className="text-right">
+						<div className="flex justify-center items-center gap-4">
+							<Label
+								htmlFor="company"
+								className="text-start w-24">
 								Company
 							</Label>
 							<Input
 								id="company"
-								className="col-span-3"
+								className="text-sm"
 								{...register("company")}
 							/>
 							{errors.company && (
@@ -164,14 +168,14 @@ export default function UpdateProductModal({
 								</p>
 							)}
 						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="price" className="text-right">
+						<div className="flex justify-center items-center gap-4">
+							<Label htmlFor="price" className="text-start w-24">
 								Price
 							</Label>
 							<Input
 								id="price"
 								type="number"
-								className="col-span-3"
+								className="text-sm"
 								{...register("price", { valueAsNumber: true })}
 							/>
 							{errors.price && (
@@ -180,14 +184,14 @@ export default function UpdateProductModal({
 								</p>
 							)}
 						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="cost" className="text-right">
+						<div className="flex justify-center items-center gap-4">
+							<Label htmlFor="cost" className="text-start w-24">
 								Cost
 							</Label>
 							<Input
 								id="cost"
 								type="number"
-								className="col-span-3"
+								className="text-sm"
 								{...register("cost", { valueAsNumber: true })}
 							/>
 							{errors.cost && (
