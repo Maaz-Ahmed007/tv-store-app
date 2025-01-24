@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useParams, usePathname } from "next/navigation";
 import {
 	Home,
 	Box,
@@ -12,17 +13,10 @@ import {
 	BarChart2,
 	ChevronLeft,
 	ChevronRight,
+	Tv,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
-const sidebarItems = [
-	{ icon: Home, label: "Dashboard", href: "/" },
-	{ icon: Box, label: "Products", href: "/products" },
-	{ icon: Users, label: "Test", href: "/test" },
-	{ icon: DollarSign, label: "Sales", href: "/" },
-	{ icon: BarChart2, label: "Reports", href: "/" },
-];
 
 const Sidebar = ({
 	isOpen,
@@ -33,6 +27,36 @@ const Sidebar = ({
 }) => {
 	const [isMobile, setIsMobile] = useState(false);
 	const [activeItem, setActiveItem] = useState("Dashboard");
+
+	const params = useParams();
+	const pathname = usePathname();
+
+	const routes = [
+		{
+			href: `/`,
+			icon: Home,
+			label: "Dashboard",
+			active: pathname === `/`,
+		},
+		{
+			href: `/products`,
+			icon: Tv,
+			label: "Products",
+			active: pathname === `/products`,
+		},
+		{
+			href: `/sales`,
+			icon: DollarSign,
+			label: "Sales",
+			active: pathname === `/sales`,
+		},
+		{
+			href: `/expenses`,
+			icon: BarChart2,
+			label: "Expenses",
+			active: pathname === `/expenses`,
+		},
+	];
 
 	useEffect(() => {
 		const checkMobile = () => {
@@ -56,22 +80,19 @@ const Sidebar = ({
 					)}>
 					<div className="h-full flex flex-col justify-between py-4">
 						<ul className="space-y-2 font-medium px-3">
-							{sidebarItems.map((item, index) => (
-								<li key={index}>
+							{routes.map((route) => (
+								<li key={route.href}>
 									<Link
-										href={item.href}
+										href={route.href}
 										className={cn(
 											"flex items-center p-2 rounded-r-lg group relative overflow-hidden bg-gradient-to-r",
 											"",
-											activeItem === item.label
+											route.active
 												? "text-white from-blue-500 to-blue-400"
 												: "text-gray-500 hover:text-gray-700 hover:from-blue-300 hover:to-blue-200"
-										)}
-										onClick={() =>
-											setActiveItem(item.label)
-										}>
+										)}>
 										<div className="flex items-center w-full">
-											<item.icon
+											<route.icon
 												className={cn(
 													"w-6 h-6",
 													isOpen ? "mr-3" : "mx-auto"
@@ -84,13 +105,13 @@ const Sidebar = ({
 														? "opacity-100"
 														: "opacity-0 absolute"
 												)}>
-												{item.label}
+												{route.label}
 											</span>
 										</div>
 										<span
 											className={cn(
 												"absolute inset-y-0 left-0 w-1 bg-blue-600",
-												activeItem === item.label
+												route.active
 													? "opacity-100"
 													: "opacity-0"
 											)}
@@ -126,28 +147,25 @@ const Sidebar = ({
 			{/* Mobile Bottom Menu */}
 			{isMobile && (
 				<div className="fixed bottom-0 z-20 w-full bg-white border-t border-blue-200">
-					<div className="grid grid-cols-5">
-						{sidebarItems.map((item, index) => (
+					<div className="grid grid-cols-4">
+						{routes.map((route) => (
 							<Link
-								key={index}
-								href={item.href}
+								key={route.href}
+								href={route.href}
 								className={cn(
 									"flex flex-col items-center justify-center py-2 bg-gradient-to-t",
 									"transition-colors duration-200",
-									activeItem === item.label
+									route.active
 										? "text-white from-blue-500 to-blue-400 border-t-4 border-blue-500"
 										: "text-gray-500 hover:bg-blue-50"
-								)}
-								onClick={() => setActiveItem(item.label)}>
-								<item.icon
+								)}>
+								<route.icon
 									className={cn(
 										"w-6 h-6 mb-1",
-										activeItem === item.label
-											? "text-white"
-											: ""
+										route.active ? "text-white" : ""
 									)}
 								/>
-								<span className="text-xs">{item.label}</span>
+								<span className="text-xs">{route.label}</span>
 							</Link>
 						))}
 					</div>

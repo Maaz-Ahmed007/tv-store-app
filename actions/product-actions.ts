@@ -51,7 +51,7 @@ export async function createProduct(
 		const product = await prisma.product.create({
 			data: {
 				...validatedData,
-				quantity: validatedData.quantity ?? 0,
+				quantity: 0,
 				sold: 0,
 			},
 		});
