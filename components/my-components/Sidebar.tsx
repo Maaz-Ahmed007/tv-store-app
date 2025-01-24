@@ -1,0 +1,160 @@
+"use client";
+
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import {
+	Home,
+	Box,
+	Users,
+	DollarSign,
+	BarChart2,
+	ChevronLeft,
+	ChevronRight,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+const sidebarItems = [
+	{ icon: Home, label: "Dashboard", href: "/" },
+	{ icon: Box, label: "Products", href: "/products" },
+	{ icon: Users, label: "Test", href: "/test" },
+	{ icon: DollarSign, label: "Sales", href: "/" },
+	{ icon: BarChart2, label: "Reports", href: "/" },
+];
+
+const Sidebar = ({
+	isOpen,
+	setIsOpen,
+}: {
+	isOpen: boolean;
+	setIsOpen: (isOpen: boolean) => void;
+}) => {
+	const [isMobile, setIsMobile] = useState(false);
+	const [activeItem, setActiveItem] = useState("Dashboard");
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
+
+	return (
+		<>
+			{/* Desktop and Tablet Sidebar */}
+			{!isMobile && (
+				<aside
+					className={cn(
+						"fixed top-16 left-0 z-20 bg-white border-r border-blue-200",
+						"transition-all duration-300 ease-in-out",
+						isOpen ? "w-64" : "w-20",
+						"h-[calc(100vh-4rem)] overflow-y-auto overflow-x-hidden"
+					)}>
+					<div className="h-full flex flex-col justify-between py-4">
+						<ul className="space-y-2 font-medium px-3">
+							{sidebarItems.map((item, index) => (
+								<li key={index}>
+									<Link
+										href={item.href}
+										className={cn(
+											"flex items-center p-2 rounded-r-lg group relative overflow-hidden bg-gradient-to-r",
+											"",
+											activeItem === item.label
+												? "text-white from-blue-500 to-blue-400"
+												: "text-gray-500 hover:text-gray-700 hover:from-blue-300 hover:to-blue-200"
+										)}
+										onClick={() =>
+											setActiveItem(item.label)
+										}>
+										<div className="flex items-center w-full">
+											<item.icon
+												className={cn(
+													"w-6 h-6",
+													isOpen ? "mr-3" : "mx-auto"
+												)}
+											/>
+											<span
+												className={cn(
+													"",
+													isOpen
+														? "opacity-100"
+														: "opacity-0 absolute"
+												)}>
+												{item.label}
+											</span>
+										</div>
+										<span
+											className={cn(
+												"absolute inset-y-0 left-0 w-1 bg-blue-600",
+												activeItem === item.label
+													? "opacity-100"
+													: "opacity-0"
+											)}
+										/>
+									</Link>
+								</li>
+							))}
+						</ul>
+						<div className="px-3">
+							<Button
+								variant="outlineIcon"
+								size="icon"
+								className="w-full justify-center"
+								onClick={() => setIsOpen(!isOpen)}>
+								<motion.div
+									key={isOpen ? "open" : "closed"}
+									initial={{ opacity: 0, rotate: -180 }}
+									animate={{ opacity: 1, rotate: 0 }}
+									exit={{ opacity: 0, rotate: 180 }}
+									transition={{ duration: 0.3 }}>
+									{isOpen ? (
+										<ChevronLeft className="h-6 w-6" />
+									) : (
+										<ChevronRight className="h-6 w-6" />
+									)}
+								</motion.div>
+							</Button>
+						</div>
+					</div>
+				</aside>
+			)}
+
+			{/* Mobile Bottom Menu */}
+			{isMobile && (
+				<div className="fixed bottom-0 z-20 w-full bg-white border-t border-blue-200">
+					<div className="grid grid-cols-5">
+						{sidebarItems.map((item, index) => (
+							<Link
+								key={index}
+								href={item.href}
+								className={cn(
+									"flex flex-col items-center justify-center py-2 bg-gradient-to-t",
+									"transition-colors duration-200",
+									activeItem === item.label
+										? "text-white from-blue-500 to-blue-400 border-t-4 border-blue-500"
+										: "text-gray-500 hover:bg-blue-50"
+								)}
+								onClick={() => setActiveItem(item.label)}>
+								<item.icon
+									className={cn(
+										"w-6 h-6 mb-1",
+										activeItem === item.label
+											? "text-white"
+											: ""
+									)}
+								/>
+								<span className="text-xs">{item.label}</span>
+							</Link>
+						))}
+					</div>
+				</div>
+			)}
+		</>
+	);
+};
+
+export default Sidebar;
