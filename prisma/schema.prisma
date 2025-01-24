@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  size        String
+  panel       String
+  company     String?
+  price       Float
+  cost        Float
+  quantity    Int
+  sold        Int     @default(0)
+
+  sales Sale[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Customer {
+  id    String @id
+  name  String
+  phone String
+
+  sales Sale[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("customers")
+}
+
+model Sale {
+  id          String   @id
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  quantity    Int
+  totalAmount Float
+
+  payments Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sales")
+}
+
+model Payment {
+  id     String   @id
+  saleId String
+  sale   Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  amount Float
+  date   DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("payments")
+}
+
+model Expense {
+  id      String   @id
+  amount  Float
+  details String
+  date    DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("expenses")
+}
