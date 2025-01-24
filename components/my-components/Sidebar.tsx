@@ -4,11 +4,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
 	Home,
-	Box,
-	Users,
 	DollarSign,
 	BarChart2,
 	ChevronLeft,
@@ -25,11 +23,9 @@ const Sidebar = ({
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
 }) => {
-	const [isMobile, setIsMobile] = useState(false);
-	const [activeItem, setActiveItem] = useState("Dashboard");
-
-	const params = useParams();
 	const pathname = usePathname();
+
+	const [isMobile, setIsMobile] = useState(false);
 
 	const routes = [
 		{
