@@ -11,16 +11,16 @@ const buttonVariants = cva(
 			variant: {
 				default:
 					"bg-primary text-primary-foreground hover:bg-primary/90",
-				blue: "bg-gradient-to-r from-blue-500 to-blue-600 text-white dark:text-gray-200 shadow-lg hover:from-blue-500 hover:to-blue-400 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-500",
-				red: "bg-gradient-to-r from-red-500 to-red-600 text-white dark:text-gray-200 shadow-lg hover:from-red-500 hover:to-red-400 dark:from-red-600 dark:to-red-700 dark:hover:from-red-600 dark:hover:to-red-500",
+				blue: "bg-gradient-to-r from-blue-500 to-blue-600 text-white dark:text-gray-200 shadow-lg hover:from-blue-500 hover:to-blue-400 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-500 focus-visible:outline-blue-400",
+				red: "bg-gradient-to-r from-red-500 to-red-600 text-white dark:text-gray-200 shadow-lg hover:from-red-500 hover:to-red-400 dark:from-red-600 dark:to-red-700 dark:hover:from-red-600 dark:hover:to-red-500 focus-visible:outline-red-400",
 				outline:
-					"border-2 border-blue-500 bg-transparent text-blue-500 hover:border-blue-500 hover:bg-gradient-to-r hover:from-transparent hover:to-blue-200 hover:text-blue-600 dark:bg-transparent dark:border-blue-800 dark:text-gray-200 dark:hover:bg-gradient-to-r dark:hover:from-transparent dark:hover:to-blue-600 hover:dark:border-blue-600 dark:hover:text-blue-400",
+					"border-2 border-blue-500 bg-transparent text-blue-500 hover:border-blue-500 hover:bg-gradient-to-r hover:from-transparent hover:to-blue-200 hover:text-blue-600 dark:bg-transparent dark:border-blue-800 dark:text-gray-200 dark:hover:bg-gradient-to-r dark:hover:from-transparent dark:hover:to-blue-600 hover:dark:border-blue-600 dark:hover:text-blue-400 focus-visible:outline-blue-200",
 				blueIcon:
-					"bg-gradient-to-r from-blue-500 to-blue-600 text-white dark:text-gray-200 shadow-lg hover:from-blue-500 hover:to-blue-400 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-500",
+					"bg-gradient-to-r from-blue-500 to-blue-600 text-white dark:text-gray-200 shadow-lg hover:from-blue-500 hover:to-blue-400 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-500 focus-visible:outline-blue-400",
 				redIcon:
-					"bg-gradient-to-r from-red-500 to-red-600 text-white dark:text-gray-200 shadow-lg hover:from-red-500 hover:to-red-400 dark:from-red-600 dark:to-red-700 dark:hover:from-red-600 dark:hover:to-red-500",
+					"bg-gradient-to-r from-red-500 to-red-600 text-white dark:text-gray-200 shadow-lg hover:from-red-500 hover:to-red-400 dark:from-red-600 dark:to-red-700 dark:hover:from-red-600 dark:hover:to-red-500 focus-visible:outline-red-400",
 				outlineIcon:
-					"border bg-white text-blue-500 hover:border-blue-500 hover:bg-blue-200 hover:text-blue-600 dark:bg-transparent dark:border-blue-950 dark:text-gray-200 dark:hover:bg-gradient-to-r dark:hover:bg-blue-800 hover:dark:border-blue-600 dark:hover:text-blue-400",
+					"border bg-white text-blue-500 hover:border-blue-500 hover:bg-blue-200 hover:text-blue-600 dark:bg-transparent dark:border-blue-950 dark:text-gray-200 dark:hover:bg-gradient-to-r dark:hover:bg-blue-800 hover:dark:border-blue-600 dark:hover:text-blue-400 focus-visible:outline-blue-200",
 				ghost: "bg-transparent text-blue-600 hover:bg-blue-50 hover:text-blue-700 dark:text-blue-400 dark:hover:bg-blue-950 dark:hover:text-blue-300",
 			},
 			size: {

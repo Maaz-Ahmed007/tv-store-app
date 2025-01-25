@@ -90,109 +90,109 @@ export default function CreateProductModal({
 						{serverError && (
 							<p className="text-red-500">{serverError}</p>
 						)}
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="name" className="text-start w-24">
 								Name
 							</Label>
 							<Input
 								id="name"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("name")}
 							/>
 							{errors.name && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.name.message}
 								</p>
 							)}
 						</div>
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="description" className="text-start w-24">
 								Details
 							</Label>
 							<Input
 								id="description"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("description")}
 							/>
 							{errors.name && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.description?.message}
 								</p>
 							)}
 						</div>
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="size" className="text-start w-24">
 								Size
 							</Label>
 							<Input
 								id="size"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("size")}
 							/>
 							{errors.size && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.size.message}
 								</p>
 							)}
 						</div>
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="panel" className="text-start w-24">
 								Panel
 							</Label>
 							<Input
 								id="panel"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("panel")}
 							/>
 							{errors.panel && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.panel.message}
 								</p>
 							)}
 						</div>
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="company" className="text-start w-24">
 								Company
 							</Label>
 							<Input
 								id="company"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("company")}
 							/>
 							{errors.company && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.company?.message}
 								</p>
 							)}
 						</div>
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="price" className="text-start w-24">
 								Price
 							</Label>
 							<Input
 								id="price"
 								type="number"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("price", { valueAsNumber: true })}
 							/>
 							{errors.price && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.price.message}
 								</p>
 							)}
 						</div>
-						<div className="flex justify-center items-center gap-4">
+						<div className="flex justify-center items-center relative gap-4">
 							<Label htmlFor="cost" className="text-start w-24">
 								Cost
 							</Label>
 							<Input
 								id="cost"
 								type="number"
-								className="text-sm"
+								className={`${errors.name ? "border-red-200 focus-visible:outline-red-400" : ""} text-sm`}
 								{...register("cost", { valueAsNumber: true })}
 							/>
 							{errors.cost && (
-								<p className="col-span-3 col-start-2 text-red-500">
+								<p className="absolute right-2 text-red-500">
 									{errors.cost.message}
 								</p>
 							)}

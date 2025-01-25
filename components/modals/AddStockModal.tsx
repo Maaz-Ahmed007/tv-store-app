@@ -112,7 +112,7 @@ export default function AddStockModal({
 								<Input
 									id="quantity"
 									type="number"
-									className=" h-10 w-20 text-center"
+									className="w-20 text-center text-sm"
 									{...register("quantity", {
 										valueAsNumber: true,
 									})}
@@ -126,14 +126,6 @@ export default function AddStockModal({
 									+
 								</Button>
 							</div>
-							{/* <Input
-								id="quantity"
-								type="number"
-								className="col-span-3"
-								{...register("quantity", {
-									valueAsNumber: true,
-								})}
-							/> */}
 							{errors.quantity && (
 								<p className="col-span-3 col-start-2 text-red-500">
 									{errors.quantity.message}

@@ -154,7 +154,7 @@ export default function ProductList() {
 								</div>
 							</div>
 						</div>
-						<div className="flex justify-end items-center pt-2 gap-2">
+						<div className="flex justify-end pt-2 gap-2">
 							<UpdateProductModal
 								product={product}
 								onProductUpdated={handleProductUpdated}
