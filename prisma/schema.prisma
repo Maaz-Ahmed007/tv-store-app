@@ -29,9 +29,9 @@ model Product {
 }
 
 model Customer {
-  id    String @id
+  id    String  @id @default(uuid())
   name  String
-  phone String
+  phone String?
 
   sales Sale[]
 
@@ -42,7 +42,7 @@ model Customer {
 }
 
 model Sale {
-  id          String   @id
+  id          String   @id @default(uuid())
   customerId  String
   customer    Customer @relation(fields: [customerId], references: [id])
   productId   String
@@ -59,7 +59,7 @@ model Sale {
 }
 
 model Payment {
-  id     String   @id
+  id     String   @id @default(uuid())
   saleId String
   sale   Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
   amount Float
@@ -72,9 +72,9 @@ model Payment {
 }
 
 model Expense {
-  id      String   @id
+  id      String   @id @default(uuid())
+  details String?
   amount  Float
-  details String
   date    DateTime @default(now())
 
   createdAt DateTime @default(now())

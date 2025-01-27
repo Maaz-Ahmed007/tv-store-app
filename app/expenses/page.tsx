@@ -1,4 +1,7 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
+
+import ExpenseList from "./ExpenseList";
 
 import { Separator } from "@/components/ui/separator";
 
@@ -18,6 +21,11 @@ export default function ExpensesPage() {
 				</div>
 
 				<Separator className="bg-blue-100 mb-4" />
+
+				<Suspense
+					fallback={<div className="pt-4">Loading expenses...</div>}>
+					<ExpenseList />
+				</Suspense>
 			</div>
 		</div>
 	);

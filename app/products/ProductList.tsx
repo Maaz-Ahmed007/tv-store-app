@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { getProducts } from "@/actions/product-actions";
 import type { FullProductTypes } from "@/lib/validations/product-validations";
 
-import CreateProductModal from "@/components/modals/CreateProductModal";
-import UpdateProductModal from "@/components/modals/UpdateProductModal";
-import DeleteProductModal from "@/components/modals/DeleteProductModal";
-import AddStockModal from "@/components/modals/AddStockModal";
+import CreateProductModal from "@/components/modals/products/CreateProductModal";
+import UpdateProductModal from "@/components/modals/products/UpdateProductModal";
+import DeleteProductModal from "@/components/modals/products/DeleteProductModal";
+import AddStockModal from "@/components/modals/products/AddStockModal";
 
 export default function ProductList() {
 	const [products, setProducts] = useState<FullProductTypes[]>([]);
