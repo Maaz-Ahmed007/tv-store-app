@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import SwipeableViews from "@/components/newcomponents/SwipeableViews";
 
 export default function Home() {
-	redirect("/sales");
+	return <SwipeableViews />;
 }

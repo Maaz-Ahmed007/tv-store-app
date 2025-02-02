@@ -4,7 +4,6 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 
 import BottomNav from "@/components/newcomponents/BottomNav";
-import SwipeableViews from "@/components/newcomponents/SwipeableViews";
 import { SwipeableViewsProvider } from "@/components/newcomponents/SwipeableViewsContext";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,7 +23,9 @@ export default function RootLayout({
 			<body className={`${inter.className} bg-gray-100 text-gray-900`}>
 				<SwipeableViewsProvider>
 					<div className="max-w-md mx-auto min-h-screen flex flex-col">
-						<SwipeableViews />
+						<main className="flex-grow overflow-hidden">
+							{children}
+						</main>
 						<BottomNav />
 					</div>
 				</SwipeableViewsProvider>

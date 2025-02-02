@@ -28,7 +28,7 @@ export default function Products() {
 								TV Model XYZ
 							</h2>
 							<p className="text-gray-600 mb-2">
-								55" 4K Smart TV
+								55 4K Smart TV
 							</p>
 							<div className="flex justify-between items-center">
 								<span className="text-blue-600 font-bold">
