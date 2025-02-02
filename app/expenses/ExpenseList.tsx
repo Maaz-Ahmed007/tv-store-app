@@ -1,8 +1,5 @@
-"use client";
+import prisma from "@/lib/prisma";
 
-import { useState, useEffect } from "react";
-import { getExpenses } from "@/actions/expense-actions";
-import type { ExpenseTypes } from "@/lib/validations/expense-validations";
 import {
 	Table,
 	TableBody,
@@ -11,97 +8,63 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { PencilRuler, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-// Modals
-
-export default function ExpenseList() {
-	const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-
-	useEffect(() => {
-		fetchExpenses();
-	}, []);
-
-	async function fetchExpenses() {
-		setIsLoading(true);
-		setError(null);
-		try {
-			const result = await getExpenses();
-			if (result.success && result.expenses) {
-				setExpenses(result.expenses);
-			} else {
-				setError("Failed to fetch expenses");
-			}
-		} catch (err) {
-			setError("An unexpected error occurred");
-			console.error(err);
-		} finally {
-			setIsLoading(false);
-		}
-	}
-
-	const handleExpenseCreated = (newExpense: ExpenseTypes) => {
-		setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
-	};
-
-	const handleExpenseUpdated = (updatedExpense: ExpenseTypes) => {
-		setExpenses((prevExpenses) =>
-			prevExpenses.map((expense) =>
-				expense.id === updatedExpense.id ? updatedExpense : expense
-			)
-		);
-	};
-
-	const handleExpenseDeleted = (deletedExpenseId: string) => {
-		setExpenses((prevExpenses) =>
-			prevExpenses.filter((expense) => expense.id !== deletedExpenseId)
-		);
-	};
-
-	if (isLoading) return <div>Loading expenses...</div>;
-	if (error) return <div className="text-red-500">Error: {error}</div>;
+export default async function ExpenseList() {
+	const expenses = await prisma.expense.findMany({
+		orderBy: { date: "desc" },
+	});
 
 	return (
-		<div>
-			<div className="flex justify-between items-center mb-4">
-				<h2 className="text-xl font-semibold">Expenses</h2>
-				{/* <CreateSaleModal onSaleCreated={handleSaleCreated} /> */}
-			</div>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Details</TableHead>
-						<TableHead>Date</TableHead>
-						<TableHead>Amount</TableHead>
-						<TableHead className="text-right">Actions</TableHead>
+		<Table className="min-w-[371px] text-sm text-left text-gray-500">
+			<TableHeader className="text-xs text-gray-700 uppercase bg-gray-50">
+				<TableRow>
+					<TableHead scope="col" className="px-2 py-3">
+						Date
+					</TableHead>
+					<TableHead scope="col" className="px-2 py-3">
+						Details
+					</TableHead>
+					<TableHead scope="col" className="px-2 py-3">
+						Amount
+					</TableHead>
+					<TableHead scope="col" className="px-2 py-3">
+						Actions
+					</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				{expenses.map((expense) => (
+					<TableRow key={expense.id} className="bg-white border-b">
+						<TableCell className="px-2 py-4">
+							{expense.date.toISOString().split("T")[0]}
+						</TableCell>
+						<TableCell className="px-2 py-4">
+							{expense.details}
+						</TableCell>
+						<TableCell className="px-2 py-4">
+							{expense.amount.toFixed(2)}
+						</TableCell>
+						<TableCell className="px-2 py-2">
+							<div className="flex items-center gap-1.5">
+								<Button
+									variant="blue"
+									size="sm"
+									className="h-8 px-2 lg:h-9 lg:px-3">
+									<PencilRuler />
+								</Button>
+								<Button
+									variant="red"
+									size="sm"
+									className="h-8 px-2 lg:h-9 lg:px-3">
+									<Trash2 />
+								</Button>
+							</div>
+						</TableCell>
 					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{expenses.map((expense) => (
-						<TableRow key={expense.id}>
-							<TableCell className="font-medium">
-								{expense.details ? expense.details : "Expense"}
-							</TableCell>
-							<TableCell>
-								{new Date(expense.date).toLocaleDateString()}
-							</TableCell>
-							<TableCell>${expense.amount.toFixed(2)}</TableCell>
-							<TableCell className="text-right">
-								{/* <UpdateCustomerModal
-									customer={customer}
-									onCustomerUpdated={handleCustomerUpdated}
-								/>
-								<DeleteCustomerModal
-									customerId={customer.id}
-									customerName={customer.name}
-									onCustomerDeleted={handleCustomerDeleted}
-								/> */}
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-		</div>
+				))}
+			</TableBody>
+		</Table>
 	);
 }

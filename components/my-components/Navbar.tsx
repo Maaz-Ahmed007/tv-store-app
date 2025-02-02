@@ -60,7 +60,7 @@ const Navbar = () => {
 					<Button
 						variant="outlineIcon"
 						size="icon"
-						className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+						className="text-gray-500 hover:text-blue-600 transition-colors duration-200 hidden md:flex"
 						onClick={toggleFullScreen}
 						title="Toggle Full Screen (Ctrl + F)">
 						{isFullScreen ? (

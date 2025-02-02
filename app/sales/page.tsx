@@ -1,36 +1,38 @@
-import { Metadata } from "next";
-import { Suspense } from "react";
+"use client";
 
-import CustomerList from "./CustomerList";
-import SaleList from "./SaleList";
+import PullToRefresh from "@/components/newcomponents/PullToRefresh";
 
-import { Separator } from "@/components/ui/separator";
+export default function Sales() {
+	const handleRefresh = () => {
+		// Implement refresh logic here
+		console.log("Refreshing sales...");
+	};
 
-export const metadata: Metadata = {
-	title: "Sales | TV Store",
-	description: "Manage your TV store inventory",
-};
-
-export default function SalesPage() {
 	return (
-		<div className="space-y-4">
-			<div className="bg-white py-4 px-4 md:px-6 border border-blue-200 rounded-lg shadow-sm shadow-blue-200">
-				<div className="flex justify-between items-center">
-					<h1 className="text-2xl text-gray-800 font-semibold leading-none tracking-tight">
-						Sales Page
-					</h1>
+		<PullToRefresh onRefresh={handleRefresh}>
+			<div className="p-4">
+				<h1 className="text-2xl font-bold text-blue-600 mb-4">Sales</h1>
+				<div className="space-y-4">
+					{[1, 2, 3, 4, 5].map((sale) => (
+						<div
+							key={sale}
+							className="bg-white p-4 rounded-lg shadow">
+							<div className="flex justify-between items-center mb-2">
+								<h2 className="text-lg font-semibold">
+									Order #{sale}001
+								</h2>
+								<span className="text-green-600 font-bold">
+									$1,299
+								</span>
+							</div>
+							<p className="text-gray-600 mb-2">
+								Customer: John Doe
+							</p>
+							<p className="text-gray-600">Date: May 1, 2023</p>
+						</div>
+					))}
 				</div>
 			</div>
-			<div className="bg-white py-4 px-4 md:px-6 border border-blue-200 rounded-lg shadow-sm shadow-blue-200">
-				<Suspense fallback={<div>Loading customers...</div>}>
-					<CustomerList />
-				</Suspense>
-			</div>
-			<div className="bg-white py-4 px-4 md:px-6 border border-blue-200 rounded-lg shadow-sm shadow-blue-200">
-				<Suspense fallback={<div>Loading sales...</div>}>
-					<SaleList />
-				</Suspense>
-			</div>
-		</div>
+		</PullToRefresh>
 	);
 }

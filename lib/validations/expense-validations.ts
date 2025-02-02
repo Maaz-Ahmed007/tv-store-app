@@ -1,16 +1,12 @@
 import { z } from "zod";
 
 export const expenseSchema = z.object({
-    id: z.string().uuid("Invalid customer ID"),
+	id: z.string().uuid("Invalid customer ID").optional(),
 	details: z.string().optional(),
 	amount: z.number().positive("Required Positive Amount"),
-    date: z.date(),
+	date: z
+		.string()
+		.regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use YYYY-MM-DD"),
 });
 
-export const createExpenseSchema = expenseSchema.omit({ id: true });
-
-export const updateExpenseSchema = expenseSchema.partial();
-
 export type ExpenseTypes = z.infer<typeof expenseSchema>;
-export type CreateExpenseTypes = z.infer<typeof createExpenseSchema>;
-export type UpdateExpenseTypes = z.infer<typeof updateExpenseSchema>;

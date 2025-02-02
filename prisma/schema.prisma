@@ -8,6 +8,31 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+model User {
+  id           String  @id
+  username     String  @unique
+  displayName  String
+  email        String  @unique
+  passwordHash String?
+
+  session Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
 model Product {
   id          String  @id @default(uuid())
   name        String  @unique
