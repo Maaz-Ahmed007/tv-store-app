@@ -31,17 +31,17 @@ export default function CustomerList() {
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="flex-grow mr-2"
 				/>
-				<Button variant="outline" size="icon">
+				<Button variant="outlineIcon" size="sm">
 					<SlidersHorizontal className="h-4 w-4" />
 				</Button>
-				<Button variant="outline" size="icon" className="ml-2">
+				<Button variant="outlineIcon" size="sm" className="ml-2">
 					<Printer className="h-4 w-4" />
 				</Button>
 			</div>
 			<Table>
 				<TableBody>
 					{filteredCustomers.map((customer) => (
-						<TableRow key={customer.id} className="cursor-pointer">
+						<TableRow key={customer.id} className="flex justify-between py-2 cursor-pointer">
 							<TableCell className="font-medium">
 								{customer.name}
 							</TableCell>
