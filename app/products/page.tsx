@@ -1,12 +1,9 @@
-"use client";
-
-import { useState } from "react";
 import { Search, Filter, Plus } from "lucide-react";
 
 import Header from "@/components/newcomponents/Header";
 
 export default function Products() {
-	const [products, setProducts] = useState([
+	const products = [
 		{
 			id: 1,
 			name: "TV Model XYZ",
@@ -42,7 +39,7 @@ export default function Products() {
 			price: 199,
 			stock: 20,
 		},
-	]);
+	];
 
 	const handleReload = () => {
 		// Implement reload logic here
