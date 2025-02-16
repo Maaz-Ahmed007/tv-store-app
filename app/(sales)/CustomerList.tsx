@@ -9,10 +9,10 @@ interface Props {
 export default function CustomerList({ customers }: Props) {
 	return (
 		<div className="space-y-4">
-			{/* TODO: We will display customers in table with name and balance amount only. */}
+			{/* TODO: We will display customers in table with name, sales and balance amount */}
 			{/* TODO: Create individual customer page that will open when user clicks on customers */}
 			{customers.map((customer) => (
-				<Link key={customer.id} href={`/sales/customers/${customer.id}`} passHref>
+				<Link key={customer.id} href={`/customers/${customer.id}`} passHref>
 					<div
 						className="border p-4 rounded-lg flex flex-row justify-between items-center cursor-pointer">
 						{/* TODO: each row of table will have columns for name, sales and balance */}

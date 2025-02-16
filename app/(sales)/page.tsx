@@ -19,7 +19,7 @@ export default async function SalesPage() {
 					<header className="flex justify-between items-center">
 						<h1 className="text-2xl font-bold">Sales</h1>
 						<Button variant="ghost" size="icon">
-							{/* TODO: Add refetching and animation to refresh button */}
+							{/* TODO: Add refetching and animation to refresh button within this server component */}
 							<RefreshCw />
 						</Button>
 					</header>
@@ -31,7 +31,8 @@ export default async function SalesPage() {
 					<CustomerList customers={customers} />
 				)}
 
-				<Link href="/sales/customers/new" passHref>
+				{/* Display button above bottom nav component and over the customer list */}
+				<Link href="/customers/new" passHref>
 					<div className="p-4 flex justify-center items-center">
 						<Button variant="blue">
 							Add Customer
