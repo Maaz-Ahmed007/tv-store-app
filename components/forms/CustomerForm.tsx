@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,8 +21,6 @@ interface Props {
 }
 
 export default function CustomerForm({ existingCustomer, onClose }: Props) {
-	const [serverError, setServerError] = useState<string | null>(null);
-
 	const {
 		register,
 		handleSubmit,
@@ -40,7 +37,6 @@ export default function CustomerForm({ existingCustomer, onClose }: Props) {
 	});
 
 	async function onSubmit(data: CustomerTypes) {
-		setServerError(null);
 		const response = await saveCustomer(existingCustomer?.id || null, data);
 
 		if (response.error) {
