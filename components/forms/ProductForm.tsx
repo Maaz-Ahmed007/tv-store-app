@@ -21,7 +21,6 @@ interface Props {
 }
 
 export default function ProductForm({ existingProduct }: Props) {
-	const [serverError, setServerError] = useState<string | null>(null);
 
 	const {
 		register,
@@ -39,7 +38,6 @@ export default function ProductForm({ existingProduct }: Props) {
 	});
 
 	async function onSubmit(data: ProductTypes) {
-		setServerError(null);
 		const response = await saveProduct(existingProduct?.id || null, data);
 
 		if (response.error) {
@@ -48,8 +46,6 @@ export default function ProductForm({ existingProduct }: Props) {
 					type: "manual",
 					message: "A product with this name already exists.",
 				});
-			} else {
-				setServerError(response.error.name || "An error occurred");
 			}
 			return;
 			// Toast error
