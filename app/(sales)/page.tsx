@@ -31,11 +31,13 @@ export default async function SalesPage() {
 					<CustomerList customers={customers} />
 				)}
 
-				<div className="p-4 flex justify-center items-center">
-					<Link href="/sales/customers/new" className="absolute bottom-24 z-50" passHref>
-						<Button variant="blue" className="w-full" size="lg">Add Customer</Button>
-					</Link>
-				</div>
+				<Link href="/sales/customers/new" passHref>
+					<div className="p-4 flex justify-center items-center">
+						<Button variant="blue">
+							Add Customer
+						</Button>
+					</div>
+				</Link>
 			</div>
 		</DashboardWrapper>
 	);

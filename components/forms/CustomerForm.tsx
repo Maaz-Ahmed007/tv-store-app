@@ -25,7 +25,6 @@ export default function CustomerForm({ existingCustomer, onClose }: Props) {
 		register,
 		handleSubmit,
 		reset,
-		setError,
 		formState: { errors, isSubmitting },
 	} = useForm<CustomerTypes>({
 		resolver: zodResolver(customerSchema),
