@@ -1,29 +1,41 @@
 import Link from "next/link";
-import { Home, DollarSign, Box, Users, Menu } from "lucide-react";
+import { DollarSign, 
+	FileText, User, BarChart2, ShoppingBag } from "lucide-react";
 
 export default function BottomNav() {
 	return (
-		<nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg">
-			<div className="flex justify-around items-center h-16">
-				<Link href="/" className="flex flex-col items-center">
-					<Home size={24} />
-					<span className="text-xs">Home</span>
+		<nav className="fixed bottom-0 left-0 right-0 bg-blue-50 border-t border-blue-900 shadow-lg">
+			<div className="flex justify-around items-center h-20">
+				{" "}
+				<Link
+					href="/"
+					className="flex flex-col items-center justify-center gap-2">
+					<DollarSign size={26} />
+					<span className="text-xs font-semibold">Sales</span>
 				</Link>
-				<Link href="/sales" className="flex flex-col items-center">
-					<DollarSign size={24} />
-					<span className="text-xs">Sales</span>
+				<Link
+					href="/products"
+					className="flex flex-col items-center justify-center gap-2">
+					<ShoppingBag size={26} />
+					<span className="text-xs font-semibold">Products</span>
 				</Link>
-				<Link href="/inventory" className="flex flex-col items-center">
-					<Box size={24} />
-					<span className="text-xs">Inventory</span>
+				<Link
+					href="/expenses"
+					className="flex flex-col items-center justify-center gap-2">
+					<BarChart2 size={26} />
+					<span className="text-xs font-semibold">Expenses</span>
 				</Link>
-				<Link href="/customers" className="flex flex-col items-center">
-					<Users size={24} />
-					<span className="text-xs">Customers</span>
+				<Link
+					href="/invoices"
+					className="flex flex-col items-center justify-center gap-2">
+					<FileText size={26} />
+					<span className="text-xs font-semibold">Invoices</span>
 				</Link>
-				<Link href="/more" className="flex flex-col items-center">
-					<Menu size={24} />
-					<span className="text-xs">More</span>
+				<Link
+					href="/settings"
+					className="flex flex-col items-center justify-center gap-2">
+					<User size={26} />
+					<span className="text-xs font-semibold">Settings</span>
 				</Link>
 			</div>
 		</nav>

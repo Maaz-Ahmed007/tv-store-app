@@ -1,10 +1,27 @@
->> Changes to Make
+Project TV Store
 
-I will redesign this app in a mobile version which can also be controlled from pc but both designs will differ and have different pages, functionality and controls.
+First tackle database models for each like customers, sales, expenses and products. Then create validations schema using zod and create server actions to do all kinds of actions we will need even the updating of stock and sales to make sure all needed functionality is added and at last we will tackle the front end of the website to make it look as we want to and add some sort of authentication with no registeration and forget password functionality as well as settings where user can edit few things.
 
-In mobile we will create small pages that can be backed or closed easily and create new forms for mobile versions and here we will also create new type of buttons that will appear on top z index and easy to navigate on mobile for creating entries. We will also create tables with new looks over each table will be add new button, search input and all the options we will need, we will use easy khata app for design inspiration.
+TODO - Server Actions + client & server side error handling
+>> Products:
+-> Creates product correctly and responds to error handling correctly. ✅
+-> Deletes product correctly but no error handling. ✅
+-> Fetches products correctly with proper types. ✅
+-> Updates product correctly and responds to error handling correctly. 
+-> Updates product quantity correctly.
+-> Updates product sold when sale of same product is made.
 
-We will create expenses same way as in the mining company software.
-We will manage products and along with them on same page we will handle stocks.
-We will handle sales where we can also handle customers that buys the store products.
-We will make passwordless authentication system and admin page where I will register emails and users will be able to log into their accounts directly with email no password required.
+>> Customers:
+-> Creates custemr correctly and responds to error handling correctly. 
+-> Deletes custemr correctly but no error handling. 
+-> Fetches custemrs correctly with proper types.
+-> Updates custemr correctly and responds to error handling correctly. 
+
+>> Sales:
+-> Creates sale correctly for the selected customer and gets products correctly as well as updating products sold and quantity and responds to error handling correctly. 
+-> Deletes sale. 
+-> Fetches sales. 
+-> Updates sale. 
+
+Things to change and add >>
+

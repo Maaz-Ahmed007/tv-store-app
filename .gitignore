@@ -32,7 +32,6 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-changesToMake.mdx*
 
 # vercel
 .vercel
@@ -40,3 +39,6 @@ changesToMake.mdx*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+changesToMake.mdx

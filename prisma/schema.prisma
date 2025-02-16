@@ -28,7 +28,7 @@ model Session {
   userId    String
   expiresAt DateTime
 
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
@@ -37,20 +37,15 @@ model Product {
   id          String  @id @default(uuid())
   name        String  @unique
   description String?
-  size        String
-  panel       String
-  company     String?
   price       Float
   cost        Float
-  quantity    Int
+  quantity    Int     @default(0)
   sold        Int     @default(0)
 
   sales Sale[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("products")
 }
 
 model Customer {
@@ -62,8 +57,6 @@ model Customer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("customers")
 }
 
 model Sale {
