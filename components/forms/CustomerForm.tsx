@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Label } from "@/components/ui/label";
@@ -17,15 +19,18 @@ import { customerSchema, CustomerTypes } from "@/utils/validations";
 
 interface Props {
 	existingCustomer?: CustomerTypes & { id: string };
-	onClose: () => void;
+	onSuccess: () => void;
 }
 
-export default function CustomerForm({ existingCustomer, onClose }: Props) {
+export default function CustomerForm({ existingCustomer, onSuccess }: Props) {
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+	const router = useRouter();
+
 	const {
 		register,
 		handleSubmit,
-		reset,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<CustomerTypes>({
 		resolver: zodResolver(customerSchema),
 		defaultValues: existingCustomer || {
@@ -36,21 +41,23 @@ export default function CustomerForm({ existingCustomer, onClose }: Props) {
 	});
 
 	async function onSubmit(data: CustomerTypes) {
+		setIsSubmitting(true);
+		setError(null);
 		const response = await saveCustomer(existingCustomer?.id || null, data);
 
 		if (response.error) {
-			return;
-			// Toast error
+			setError("Failed to save customer");
+		} else {
+			router.refresh();
+			onSuccess();
 		}
-
-		// Toast success
-		reset();
 	}
 
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex-grow flex flex-col p-4">
+			{error && <p className="text-red-500">{error}</p>}
 			<div className="mb-4">
 				<Label htmlFor="name">Name</Label>
 				<Input
@@ -80,18 +87,15 @@ export default function CustomerForm({ existingCustomer, onClose }: Props) {
 			</div>
 
 			{/* TODO: Fix the button at the bottom of the page */}
-			<div className="flex justify-end space-x-2">
-				<Button type="button" variant="outline" onClick={onClose}>
-					Cancel
-				</Button>
-				<Button variant="blue" type="submit" disabled={isSubmitting}>
-					{isSubmitting
-						? "Saving..."
-						: existingCustomer
-						? "Update Customer"
-						: "Add Customer"}
-				</Button>
-			</div>
+			{/* <div className="flex justify-end space-x-2"> */}
+			<Button variant="blue" type="submit" disabled={isSubmitting}>
+				{isSubmitting
+					? "Saving..."
+					: existingCustomer
+					? "Update Customer"
+					: "Add Customer"}
+			</Button>
+			{/* </div> */}
 		</form>
 	);
 }
