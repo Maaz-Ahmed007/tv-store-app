@@ -8,30 +8,26 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model User {
-  id           String  @id
-  username     String  @unique
-  displayName  String
-  email        String  @unique
-  passwordHash String?
+// model User {
+//   id           String  @id
+//   username     String  @unique
+//   displayName  String
+//   email        String  @unique
+//   passwordHash String?
 
-  session Session[]
+//   session Session[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
-  @@map("users")
-}
+// model Session {
+//   id        String   @id
+//   userId    String
+//   expiresAt DateTime
 
-model Session {
-  id        String   @id
-  userId    String
-  expiresAt DateTime
-
-  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
-}
+//   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
 
 model Product {
   id          String  @id @default(uuid())
@@ -68,35 +64,29 @@ model Sale {
   quantity    Int
   totalAmount Float
 
-  payments Payment[]
+  // payments Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("sales")
 }
 
-model Payment {
-  id     String   @id @default(uuid())
-  saleId String
-  sale   Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
-  amount Float
-  date   DateTime @default(now())
+// model Payment {
+//   id     String   @id @default(uuid())
+//   saleId String
+//   sale   Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+//   amount Float
+//   date   DateTime @default(now())
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
-  @@map("payments")
-}
+// model Expense {
+//   id      String   @id @default(uuid())
+//   details String?
+//   amount  Float
+//   date    DateTime @default(now())
 
-model Expense {
-  id      String   @id @default(uuid())
-  details String?
-  amount  Float
-  date    DateTime @default(now())
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("expenses")
-}
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }

@@ -17,7 +17,7 @@ export async function getCustomers() {
 		return { success: true, customers };
 	} catch (error) {
 		return {
-			error: { general: "Something went wrong while fetching customers. Please try again." },
+			error: { general: "Something went wrong. Please try again." },
 		};
 	}
 }
@@ -37,6 +37,8 @@ export async function saveCustomer(id: string | null, data: CustomerTypes) {
 					data: parsedData.data,
 			  })
 			: await prisma.customer.create({ data: parsedData.data });
+
+			// await prisma.customer.create({ data: parsedData.data });
 
 		revalidatePath("/");
 		return { success: true, customer };
