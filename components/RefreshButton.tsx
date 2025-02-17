@@ -12,8 +12,9 @@ export default function RefreshButton() {
 
 	const handleRefresh = async () => {
 		setIsRefreshing(true);
+		router.prefetch("/");
 		router.refresh();
-		setTimeout(() => setIsRefreshing(false), 1000);
+		setTimeout(() => setIsRefreshing(false), 3000);
 	};
 
 	return (

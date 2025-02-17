@@ -20,19 +20,19 @@ export default function BottomNav() {
 					<span className="text-xs font-semibold">Products</span>
 				</Link>
 				<Link
-					href="/expenses"
+					href="/"
 					className="flex flex-col items-center justify-center gap-2">
 					<BarChart2 size={26} />
 					<span className="text-xs font-semibold">Expenses</span>
 				</Link>
 				<Link
-					href="/invoices"
+					href="/"
 					className="flex flex-col items-center justify-center gap-2">
 					<FileText size={26} />
 					<span className="text-xs font-semibold">Invoices</span>
 				</Link>
 				<Link
-					href="/settings"
+					href="/"
 					className="flex flex-col items-center justify-center gap-2">
 					<User size={26} />
 					<span className="text-xs font-semibold">Settings</span>
