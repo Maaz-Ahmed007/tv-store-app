@@ -17,7 +17,7 @@ export async function getCustomers() {
 		return { success: true, customers };
 	} catch (error) {
 		return {
-			error: { general: "Something went wrong. Please try again." },
+			error: { general: "Something went wrong while fetching customers. Please try again." },
 		};
 	}
 }
