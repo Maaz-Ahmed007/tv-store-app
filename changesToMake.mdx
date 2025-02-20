@@ -3,25 +3,63 @@ Project TV Store
 First tackle database models for each like customers, sales, expenses and products. Then create validations schema using zod and create server actions to do all kinds of actions we will need even the updating of stock and sales to make sure all needed functionality is added and at last we will tackle the front end of the website to make it look as we want to and add some sort of authentication with no registeration and forget password functionality as well as settings where user can edit few things.
 
 TODO - Server Actions + client & server side error handling
->> Products:
--> Creates product correctly and responds to error handling correctly. ✅
--> Deletes product correctly but no error handling. ✅
--> Fetches products correctly with proper types. ✅
--> Updates product correctly and responds to error handling correctly. 
--> Updates product quantity correctly.
--> Updates product sold when sale of same product is made.
 
->> Customers:
--> Creates custemr correctly and responds to error handling correctly. 
--> Deletes custemr correctly but no error handling. 
--> Fetches custemrs correctly with proper types.
--> Updates custemr correctly and responds to error handling correctly. 
+> > Products:
+> > -> Creates product correctly and responds to error handling correctly. ✅
+> > -> Deletes product correctly but no error handling. ✅
+> > -> Fetches products correctly with proper types. ✅
+> > -> Updates product correctly and responds to error handling correctly.
+> > -> Updates product quantity correctly.
+> > -> Updates product sold when sale of same product is made.
 
->> Sales:
--> Creates sale correctly for the selected customer and gets products correctly as well as updating products sold and quantity and responds to error handling correctly. 
--> Deletes sale. 
--> Fetches sales. 
--> Updates sale. 
+> > Customers:
+> > -> Creates custemr correctly and responds to error handling correctly.
+> > -> Deletes custemr correctly but no error handling.
+> > -> Fetches custemrs correctly with proper types.
+> > -> Updates custemr correctly and responds to error handling correctly.
+
+> > Sales:
+> > -> Creates sale correctly for the selected customer and gets products correctly as well as updating products sold and quantity and responds to error handling correctly.
+> > -> Deletes sale.
+> > -> Fetches sales.
+> > -> Updates sale.
 
 Things to change and add >>
 
+TODO: Sales and products page should load faster when switching between two
+
+schema.prisma
+TODO: Finish and complete schema.prisma
+
+validations.ts
+TODO: Create proper types for getCustomerSchema and complete other types and schemas
+
+sales page.tsx
+TODO: Properly implement and finish the sales page and keep it server component
+
+CustomerList.tsx
+TODO: Only display names and fetch and calculate final balance of each customer
+TODO: We don't need heading in customer list
+TODO: Style the table to look more better and mobile styled
+TODO: Add search bar for customer names
+TODO: Sorting panel for customer list
+
+SalesPageContent.tsx
+TODO: Properly give functionality to refresh page
+TODO: We need to properly style balance boxes
+
+CustomerSales.tsx
+TODO: We need a proper and correct way to calculate final balance without any errors
+TODO: For empty row we won't use "-" but leave it empty
+TODO: We don't need type column
+TODO: Same styled used for balance box we will display balance here without the sorting functionality
+TODO: We will add PDF that will collect and download all the data for a customer
+TODO: We will add a whatsapp sharing button that will take number from customer and directly send data to that whatsapp contact
+TODO: We will display date column, details, balance, debit and then credit column in order
+TODO: Make sure correct types are fetched and correct data is displayed
+TODO: Add cursor pointer to each entry and when clicked individual transaction overlay page should open
+TODO: Create transaction overlay page
+TODO: Use this date format for all website: {format( new Date(item.createdAt), "dd/MM/yyyy" )}
+TODO: Add sale will open AddSale Overlay page.
+TODO: Add Credit will open AddTransaction Overlay page.
+TODO: Add Debit will open AddTransaction Overlay page.

@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-
-import OverlayPage from "./OverlayPage";
-import CustomerForm from "./forms/CustomerForm";
-
 import { Button } from "@/components/ui/button";
+import OverlayPage from "@/components/OverlayPage";
+import CustomerForm from "@/components/forms/CustomerForm";
 
-export default function AddCustomerButton() {
+interface AddCustomerButtonProps {
+	onCustomerAdded: () => void;
+}
+
+export default function AddCustomerButton({
+	onCustomerAdded,
+}: AddCustomerButtonProps) {
 	const [isAddingCustomer, setIsAddingCustomer] = useState(false);
 
 	const handleAddCustomer = () => {
@@ -16,11 +20,12 @@ export default function AddCustomerButton() {
 
 	const handleCloseOverlay = () => {
 		setIsAddingCustomer(false);
+		onCustomerAdded();
 	};
 
 	return (
 		<>
-			<div className="fixed bottom-16 left-0 right-0 p-4 flex justify-center items-center">
+			<div className="fixed bottom-20 left-0 right-0 p-4 flex justify-center items-center">
 				<Button variant="blue" onClick={handleAddCustomer}>
 					Add Customer
 				</Button>

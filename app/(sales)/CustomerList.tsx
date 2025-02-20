@@ -3,7 +3,16 @@
 import { useState } from "react";
 
 import OverlayPage from "@/components/OverlayPage";
-import CustomerDetails from "@/components/CustomerDetails";
+import CustomerSales from "@/components/CustomerSales";
+
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 
 // ✅ Customer Validations Types
 import { GetCustomerTypes } from "@/utils/validations";
@@ -26,47 +35,61 @@ export default function CustomerList({ customers }: Props) {
 
 	return (
 		<>
-			<div className="space-y-4">
-				{/* TODO: We will display customers in table with name, sales and balance amount */}
-				{/* TODO: Create individual customer page that will open when user clicks on customers */}
-				<table className="w-full">
-					<thead>
-						<tr className="bg-gray-100">
-							<th className="p-2 text-left">Name</th>
-							<th className="p-2 text-left">Sales</th>
-							<th className="p-2 text-left">Balance</th>
-						</tr>
-					</thead>
-					<tbody>
-						{customers.map((customer) => (
-							<tr
+			<Table>
+				<TableHeader>
+					<TableRow>
+						{/* TODO: Only display names and fetch and calculate final balance of each customer */}
+						{/* TODO: We don't need heading in customer list */}
+						{/* TODO: Style the table to look more better and mobile styled */}
+						{/* TODO: Add search bar for customer names */}
+						{/* TODO: Sorting panel for customer list */}
+						<TableHead>Name</TableHead>
+						<TableHead>Phone</TableHead>
+						<TableHead>Sales</TableHead>
+						<TableHead>Balance</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{customers.map((customer) => {
+						const totalBalance =
+							customer?.sales.reduce(
+								(acc, sale) => acc + sale.totalAmount,
+								0
+							) +
+							customer.transactions.reduce((acc, transaction) => {
+								return transaction.type === "credit"
+									? acc + transaction.amount
+									: acc - transaction.amount;
+							}, 0);
+
+						return (
+							<TableRow
 								key={customer.id}
-								className="border-b cursor-pointer hover:bg-gray-50"
+								className="cursor-pointer hover:bg-gray-50"
 								onClick={() => handleCustomerClick(customer)}>
-								<td className="p-2">{customer.name}</td>
-								<td className="p-2">
-									{customer.sales?.length || 0}
-								</td>
-								<td className="p-2">
-									{customer.sales
-										?.reduce(
-											(total, sale) =>
-												total + sale.totalAmount,
-											0
-										)
-										.toFixed(2) || "0.00"}
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
+								<TableCell>{customer.name}</TableCell>
+								<TableCell>{customer.phone || "N/A"}</TableCell>
+								<TableCell>{customer.sales.length}</TableCell>
+								<TableCell
+									className={
+										totalBalance >= 0
+											? "text-green-500"
+											: "text-red-500"
+									}>
+									{totalBalance >= 0 ? "+" : "-"}$
+									{Math.abs(totalBalance).toFixed(2)}
+								</TableCell>
+							</TableRow>
+						);
+					})}
+				</TableBody>
+			</Table>
 
 			{selectedCustomer && (
 				<OverlayPage
-					title="Customer Details"
+					title={selectedCustomer.name}
 					onClose={handleCloseOverlay}>
-					<CustomerDetails customer={selectedCustomer} />
+					<CustomerSales customer={selectedCustomer} />
 				</OverlayPage>
 			)}
 		</>

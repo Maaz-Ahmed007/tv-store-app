@@ -55,51 +55,51 @@ export async function saveProduct(id: string | null, data: ProductTypes) {
 	}
 }
 
-// ✅ Update Product Quantity
-export async function updateProductQuantity(id: string, quantity: number) {
-	if (quantity < 0)
-		return { error: { quantity: "Quantity cannot be negative" } };
+// ✅ Update Product Quantity NOT REQUIRED YET
+// export async function updateProductQuantity(id: string, quantity: number) {
+// 	if (quantity < 0)
+// 		return { error: { quantity: "Quantity cannot be negative" } };
 
-	try {
-		const product = await prisma.product.update({
-			where: { id },
-			data: { quantity },
-		});
+// 	try {
+// 		const product = await prisma.product.update({
+// 			where: { id },
+// 			data: { quantity },
+// 		});
 
-		revalidatePath("/products");
-		return { success: true, product };
-	} catch (error) {
-		return { error: { general: "Failed to update quantity." } };
-	}
-}
+// 		revalidatePath("/products");
+// 		return { success: true, product };
+// 	} catch (error) {
+// 		return { error: { general: "Failed to update quantity." } };
+// 	}
+// }
 
-// ✅ Deduct Sold Quantity When a Sale Happens
-export async function deductSoldQuantity(id: string, soldAmount: number) {
-	if (soldAmount <= 0)
-		return { error: { sold: "Sold quantity must be greater than 0." } };
+// ✅ Deduct Sold Quantity When a Sale Happens NOT REQUIRED YET
+// export async function deductSoldQuantity(id: string, soldAmount: number) {
+// 	if (soldAmount <= 0)
+// 		return { error: { sold: "Sold quantity must be greater than 0." } };
 
-	try {
-		const product = await prisma.product.findUnique({ where: { id } });
-		if (!product) return { error: { general: "Product not found." } };
+// 	try {
+// 		const product = await prisma.product.findUnique({ where: { id } });
+// 		if (!product) return { error: { general: "Product not found." } };
 
-		if (product.quantity < soldAmount) {
-			return { error: { sold: "Not enough stock available." } };
-		}
+// 		if (product.quantity < soldAmount) {
+// 			return { error: { sold: "Not enough stock available." } };
+// 		}
 
-		const updateProduct = await prisma.product.update({
-			where: { id },
-			data: {
-				quantity: product.quantity - soldAmount,
-				sold: product.sold + soldAmount,
-			},
-		});
+// 		const updateProduct = await prisma.product.update({
+// 			where: { id },
+// 			data: {
+// 				quantity: product.quantity - soldAmount,
+// 				sold: product.sold + soldAmount,
+// 			},
+// 		});
 
-		revalidatePath("/products");
-		return { success: true, updateProduct };
-	} catch (error) {
-		return { error: { general: "Failed to update sold and quantity." } };
-	}
-}
+// 		revalidatePath("/products");
+// 		return { success: true, updateProduct };
+// 	} catch (error) {
+// 		return { error: { general: "Failed to update sold and quantity." } };
+// 	}
+// }
 
 // ✅ Delete Products
 export async function deleteProduct(id: string) {
