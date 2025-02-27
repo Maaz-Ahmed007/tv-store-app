@@ -1,10 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import { format } from "date-fns";
 
 import AddSale from "./AddSales";
-import AddTransaction from "./AddTransaction";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,139 +15,124 @@ import {
 // ✅ Customer Validations Types
 import { GetCustomerTypes } from "@/utils/validations";
 
+import { calculateCustomerBalance } from "@/utils/calculations";
+
 interface Props {
 	customer: GetCustomerTypes;
 }
 
+type TransactionType = {
+	date: Date;
+	type: "sale" | "payment";
+	details: string;
+	credit: number;
+	debit: number;
+};
+
 export default function CustomerSales({ customer }: Props) {
-	const [isAddingSale, setIsAddingSale] = useState(false);
-	const [isAddingCredit, setIsAddingCredit] = useState(false);
-	const [isAddingDebit, setIsAddingDebit] = useState(false);
+	const balance = calculateCustomerBalance(customer);
 
-	// Calculate total balance
-	// TODO: We need a proper and correct way to calculate final balance without any errors
-	const totalBalance =
-		customer.sales.reduce((acc, sale) => acc + sale.totalAmount, 0) +
-		customer.transactions.reduce((acc, transaction) => {
-			return transaction.type === "credit"
-				? acc + transaction.amount
-				: acc - transaction.amount;
-		}, 0);
+	//Combine and sort sales and payments
+	const transactions: TransactionType[] = [
+		...(customer.sales?.map((sale) => ({
+			date: new Date(sale.createdAt ?? ""),
+			type: "sale" as const,
+			details: `Sale #${sale.id.slice(0, 8)}`,
+			credit: sale.totalAmount,
+			debit: 0,
+		})) ?? []),
+		...(customer.payments?.map((payment) => ({
+			date: new Date(payment.createdAt ?? ""),
+			type: "payment" as const,
+			details:
+				payment.description ?? `Payment #${payment.id.slice(0, 8)}`,
+			credit: 0,
+			debit: payment.amount,
+		})) ?? []),
+	].sort((a, b) => b.date.getTime() - a.date.getTime());
 
-	const isCredit = totalBalance >= 0;
+	// Calculate running balance
+	let runningBalance = 0;
+	const transactionWithBalance = transactions
+		.reverse()
+		.map((transaction) => {
+			runningBalance += transaction.credit - transaction.debit;
+			return { ...transaction, balance: runningBalance };
+		})
+		.reverse();
 
 	return (
 		<div className="space-y-6">
 			<div
-				className={`flex items-center justify-center text-2xl font-bold`}>
-				Balance:
-				<span
-					className={`${
-						isCredit ? "text-green-500" : "text-red-500"
-					}`}>
-					{Math.abs(totalBalance)}
-				</span>
+				className={`flex items-center justify-center text-2xl font-bold ${
+					balance > 0
+						? "text-red-600"
+						: balance < 0
+						? "text-green-600"
+						: "text-gray-600"
+				}`}>
+				Balance: Rs. {balance.toLocaleString()}
 			</div>
 
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Date</TableHead>
-						<TableHead>Type</TableHead>
-						<TableHead>Details</TableHead>
-						<TableHead>Credit</TableHead>
-						<TableHead>Debit</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{/* TODO: For empty row we won't use "-" but leave it empty */}
-					{/* TODO: We don't need type column */}
-					{/* TODO: Same styled used for balance box we will display balance here without the sorting functionality */}
-					{/* TODO: We will add PDF that will collect and download all the data for a customer */}
-					{/* TODO: We will add a whatsapp sharing button that will take number from customer and directly send data to that whatsapp contact */}
-					{/* TODO: We will display date column, details, balance, debit and then credit column in order */}
-					{/* TODO: Make sure correct types are fetched and correct data is displayed */}
-					{/* TODO: Add cursor pointer to each entry and when clicked individual transaction overlay page should open */}
-					{/* TODO: Create transaction overlay page */}
-					{/* TODO: Use this date format for all website: {format( new Date(item.createdAt), "dd/MM/yyyy" )} */}
-					{[...customer.sales, ...customer.transactions]
-						.sort(
-							(a, b) =>
-								new Date(b.createdAt).getTime() -
-								new Date(a.createdAt).getTime()
-						)
-						.map((item) => (
-							<TableRow key={item.id}>
-								<TableCell>
-									{format(
-										new Date(item.createdAt),
-										"dd/MM/yyyy"
-									)}
+			<div className="rounded-md border">
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead className="w-[180px]">Date</TableHead>
+							<TableHead>Details</TableHead>
+							<TableHead className="text-right">Credit</TableHead>
+							<TableHead className="text-right">Debit</TableHead>
+							<TableHead className="text-right">
+								Balance
+							</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{transactionWithBalance.map((transaction, index) => (
+							<TableRow key={index}>
+								<TableCell className="font-medium">
+									{format(transaction.date, "PPP")}
 								</TableCell>
-								<TableCell>
-									{"type" in item ? item.type : "Sale"}
-								</TableCell>
-								<TableCell>
-									{"items" in item
-										? `${item.items.length} product(s)`
-										: item.description || "-"}
-								</TableCell>
-								<TableCell>
-									{"type" in item && item.type === "credit"
-										? `$${item.amount.toFixed(2)}`
-										: "totalAmount" in item
-										? `$${item.totalAmount.toFixed(2)}`
+								<TableCell>{transaction.details}</TableCell>
+								<TableCell className="text-right text-red-600">
+									{transaction.credit > 0
+										? `Rs. ${transaction.credit.toLocaleString()}`
 										: "-"}
 								</TableCell>
-								<TableCell>
-									{"type" in item && item.type === "debit"
-										? `$${item.amount.toFixed(2)}`
+								<TableCell className="text-right text-green-600">
+									{transaction.debit > 0
+										? `Rs. ${transaction.debit.toLocaleString()}`
 										: "-"}
+								</TableCell>
+								<TableCell
+									className={`text-right font-medium ${
+										transaction.balance > 0
+											? "text-red-600"
+											: transaction.balance < 0
+											? "text-green-600"
+											: "text-gray-600"
+									}`}>
+									Rs. {transaction.balance.toLocaleString()}
 								</TableCell>
 							</TableRow>
 						))}
-				</TableBody>
-			</Table>
+					</TableBody>
+				</Table>
+			</div>
 
 			<div className="fixed bottom-10 left-0 right-0 p-4 flex justify-center items-center space-x-4">
 				{/* TODO: Add sale will open AddSale Overlay page. */}
-				<Button variant="blue" onClick={() => setIsAddingSale(true)}>
+				{/* <Button variant="blue" onClick={() => setIsAddingSale(true)}>
 					Add Sale
-				</Button>
-				{/* TODO: Add Credit will open AddTransaction Overlay page. */}
-				<Button
-					variant="outlineIcon"
-					onClick={() => setIsAddingCredit(true)}>
-					Add Credit
-				</Button>
-				{/* TODO: Add Debit will open AddTransaction Overlay page. */}
-				<Button variant="red" onClick={() => setIsAddingDebit(true)}>
-					Add Debit
-				</Button>
+				</Button> */}
 			</div>
 
-			{isAddingSale && (
+			{/* {isAddingSale && (
 				<AddSale
 					customerId={customer.id}
 					onClose={() => setIsAddingSale(false)}
 				/>
-			)}
-
-			{isAddingCredit && (
-				<AddTransaction
-					customerId={customer.id}
-					type="credit"
-					onClose={() => setIsAddingCredit(false)}
-				/>
-			)}
-
-			{isAddingDebit && (
-				<AddTransaction
-					customerId={customer.id}
-					type="debit"
-					onClose={() => setIsAddingDebit(false)}
-				/>
-			)}
+			)} */}
 		</div>
 	);
 }

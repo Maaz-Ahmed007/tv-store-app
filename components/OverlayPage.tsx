@@ -10,8 +10,8 @@ interface Props {
 
 export default function OverlayPage({ title, onClose, children }: Props) {
 	return (
-		<div className="fixed inset-0 bg-white z-50 overflow-auto">
-			<div className="p-2 border-b flex items-center">
+		<div className="fixed inset-0 bg-white z-50 overflow-aut">
+			<div className="p-4 border-b flex items-center">
 				<div className="flex items-center">
 					<Button variant="outlineIcon" size="icon" onClick={onClose}>
 						<ArrowLeft />

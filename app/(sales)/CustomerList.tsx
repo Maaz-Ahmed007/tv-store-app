@@ -17,6 +17,9 @@ import {
 // ✅ Customer Validations Types
 import { GetCustomerTypes } from "@/utils/validations";
 
+// ✅ Calculations
+import { calculateCustomerFinalBalance } from "@/utils/calculations";
+
 interface Props {
 	customers: GetCustomerTypes[];
 }
@@ -44,23 +47,12 @@ export default function CustomerList({ customers }: Props) {
 						{/* TODO: Add search bar for customer names */}
 						{/* TODO: Sorting panel for customer list */}
 						<TableHead>Name</TableHead>
-						<TableHead>Phone</TableHead>
-						<TableHead>Sales</TableHead>
 						<TableHead>Balance</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{customers.map((customer) => {
-						const totalBalance =
-							customer?.sales.reduce(
-								(acc, sale) => acc + sale.totalAmount,
-								0
-							) +
-							customer.transactions.reduce((acc, transaction) => {
-								return transaction.type === "credit"
-									? acc + transaction.amount
-									: acc - transaction.amount;
-							}, 0);
+						const balance = calculateCustomerFinalBalance(customer);
 
 						return (
 							<TableRow
@@ -68,16 +60,13 @@ export default function CustomerList({ customers }: Props) {
 								className="cursor-pointer hover:bg-gray-50"
 								onClick={() => handleCustomerClick(customer)}>
 								<TableCell>{customer.name}</TableCell>
-								<TableCell>{customer.phone || "N/A"}</TableCell>
-								<TableCell>{customer.sales.length}</TableCell>
 								<TableCell
 									className={
-										totalBalance >= 0
-											? "text-green-500"
-											: "text-red-500"
+										balance >= 0
+											? "text-green-600"
+											: "text-red-600"
 									}>
-									{totalBalance >= 0 ? "+" : "-"}$
-									{Math.abs(totalBalance).toFixed(2)}
+									Rs. {Math.abs(balance)}
 								</TableCell>
 							</TableRow>
 						);
@@ -89,7 +78,7 @@ export default function CustomerList({ customers }: Props) {
 				<OverlayPage
 					title={selectedCustomer.name}
 					onClose={handleCloseOverlay}>
-					<CustomerSales customer={selectedCustomer} />
+					<CustomerSales customer={selectedCustomer || []} />
 				</OverlayPage>
 			)}
 		</>

@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 import OverlayPage from "@/components/OverlayPage";
 import CustomerForm from "@/components/forms/CustomerForm";
 
-export default function AddCustomerButton() {
-	const [isAddingCustomer, setIsAddingCustomer] = useState(false);
+export default function AddSalesButton() {
+	const [isAddingSales, setIsAddingSales] = useState(false);
 
 	const handleAddCustomer = () => {
-		setIsAddingCustomer(true);
+		setIsAddingSales(true);
 	};
 
 	const handleCloseOverlay = () => {
-		setIsAddingCustomer(false);
+		setIsAddingSales(false);
 	};
 
 	return (
@@ -24,7 +24,7 @@ export default function AddCustomerButton() {
 				</Button>
 			</div>
 
-			{isAddingCustomer && (
+			{isAddingSales && (
 				<OverlayPage title="Add Customer" onClose={handleCloseOverlay}>
 					<CustomerForm onSuccess={handleCloseOverlay} />
 				</OverlayPage>

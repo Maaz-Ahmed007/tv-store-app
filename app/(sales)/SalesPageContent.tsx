@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
+
 import CustomerList from "./CustomerList";
-import AddCustomerButton from "@/components/AddCustomerButton";
+
+import { Input } from "@/components/ui/input";
 import RefreshButton from "@/components/RefreshButton";
-import BalanceBox from "@/components/BalanceBox";
+import AddCustomerButton from "@/components/AddCustomerButton";
+
 import { GetCustomerTypes } from "@/utils/validations";
+
+import { calculateTotalBalance } from "@/utils/calculations";
 
 interface SalesPageContentProps {
 	initialCustomers: GetCustomerTypes[];
@@ -14,88 +19,53 @@ interface SalesPageContentProps {
 export default function SalesPageContent({
 	initialCustomers,
 }: SalesPageContentProps) {
-	const [selectedBalanceType, setSelectedBalanceType] = useState<
-		"credit" | "debit" | null
-	>(null);
 	const [customers, setCustomers] = useState(initialCustomers);
+	const [searchTerm, setSearchTerm] = useState("");
 
-	const { totalCredit, totalDebit, filteredCustomers } = customers.reduce(
-		(acc, customer) => {
-			const balance =
-				customer.sales.reduce(
-					(sum, sale) => sum + sale.totalAmount,
-					0
-				) +
-				customer.transactions.reduce(
-					(sum, transaction) =>
-						transaction.type === "credit"
-							? sum + transaction.amount
-							: sum - transaction.amount,
-					0
-				);
+	const totalBalance = calculateTotalBalance(customers);
 
-			if (balance > 0) {
-				acc.totalCredit += balance;
-			} else if (balance < 0) {
-				acc.totalDebit += Math.abs(balance);
-			}
-
-			if (
-				(selectedBalanceType === "credit" && balance > 0) ||
-				(selectedBalanceType === "debit" && balance < 0) ||
-				!selectedBalanceType
-			) {
-				acc.filteredCustomers.push(customer);
-			}
-
-			return acc;
-		},
-		{
-			totalCredit: 0,
-			totalDebit: 0,
-			filteredCustomers: [] as GetCustomerTypes[],
-		}
+	const filteredCustomers = customers.filter((customer) =>
+		customer.name.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
-	const handleBalanceToggle = (type: "credit" | "debit" | null) => {
-		setSelectedBalanceType((prevType) => (prevType === type ? null : type));
-	};
-
-	const handleRefresh = async () => {
-		const response = await fetch("/api/customers");
-		const data = await response.json();
-		setCustomers(data.customers);
-	};
-
 	return (
-		<div>
-			<div className="p-4 border-b bg-blue-100">
+		<div className="space-y-6">
+			{/* <div className="p-4 border-b bg-blue-100">
 				<header className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">Sales</h1>
-					{/* TODO: Properly give functionality to refresh page */}
-					<RefreshButton onRefresh={handleRefresh} />
+					<RefreshButton />
 				</header>
-			</div>
-		
-			{/* TODO: We need to properly style balance boxes */}
-			<div className="grid grid-cols-2 gap-4 p-4">
-				<BalanceBox
-					type="credit"
-					amount={totalCredit}
-					onToggle={handleBalanceToggle}
-					isSelected={selectedBalanceType === "credit"}
-				/>
-				<BalanceBox
-					type="debit"
-					amount={totalDebit}
-					onToggle={handleBalanceToggle}
-					isSelected={selectedBalanceType === "debit"}
-				/>
+			</div> */}
+
+			<div className="px-4">
+				{/* <div className="flex justify-between items-center mb-4">
+					<Input
+						type="text"
+						placeholder="Search customers..."
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						className="max-w-sm"
+					/>
+				</div> */}
+
+				{/* <div className="bg-white p-4 rounded-lg shadow mb-6">
+					<h2 className="text-xl font-semibold mb-2">
+						Total Balance
+					</h2>
+					<p
+						className={`text-2xl font-bold ${
+							totalBalance >= 0
+								? "text-green-600"
+								: "text-red-600"
+						}`}>
+						${Math.abs(totalBalance).toFixed(2)}
+					</p>
+				</div> */}
+
+				{/* <CustomerList customers={filteredCustomers} /> */}
 			</div>
 
-			<CustomerList customers={filteredCustomers} />
-
-			<AddCustomerButton onCustomerAdded={handleRefresh} />
+			{/* <AddCustomerButton /> */}
 		</div>
 	);
 }

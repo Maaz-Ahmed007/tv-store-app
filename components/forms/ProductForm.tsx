@@ -20,7 +20,6 @@ interface Props {
 }
 
 export default function ProductForm({ existingProduct }: Props) {
-
 	const {
 		register,
 		handleSubmit,

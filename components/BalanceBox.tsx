@@ -19,7 +19,7 @@ export default function BalanceBox({
 
 	return (
 		<Button
-			className={`w-full h-24 text-left p-4 rounded-lg transition-all ${
+			className={`flex flex-col gap-0 items-center w-full h-20 text-left rounded-lg transition-all ${
 				type === "credit"
 					? isSelected
 						? "bg-green-600 text-white"
@@ -29,10 +29,10 @@ export default function BalanceBox({
 					: "bg-red-100 text-red-700 hover:bg-red-200"
 			}`}
 			onClick={handleClick}>
-			<div className="font-semibold text-lg">
+			<div className="text-lg font-bold">Rs. {amount}</div>
+			<div className="font-medium text-sm">
 				{type === "credit" ? "Credit" : "Debit"}
 			</div>
-			<div className="text-2xl font-bold">${amount}</div>
 		</Button>
 	);
 }

@@ -49,11 +49,6 @@ export default function ProductList({ products }: Props) {
 							Quantity:{" "}
 							<span className="text-red-500">
 								Rs. {product.quantity}
-							</span>{" "}
-							| Sold:{" "}
-							<span className="text-red-500">
-								Rs.
-								{product.sold}
 							</span>
 						</p>
 						<p className="mt-4 flex items-center justify-end gap-3">

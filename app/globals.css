@@ -9,9 +9,3 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;  /* Chrome, Safari and Opera */
 }
-
-@layer base {
-  :root {
-    --radius: 0.5rem
-  }
-}

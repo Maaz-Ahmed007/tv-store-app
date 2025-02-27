@@ -1,16 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import { RefreshCw } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 
-interface Props {
-	onRefresh: () => void;
-}
+export default function RefreshButton() {
+	const router = useRouter();
+	const [isRefreshing, setIsRefreshing] = useState(false);
 
-export default function RefreshButton({ onRefresh }: Props) {
+	const handleRefresh = async () => {
+		setIsRefreshing(true);
+		router.refresh();
+		setTimeout(() => setIsRefreshing(false), 1000);
+	};
+
 	return (
-		<Button variant="ghost" size="icon" onClick={onRefresh}>
-			<RefreshCw className="h-6 w-6" />
+		<Button
+			variant="outlineIcon"
+			size="icon"
+			onClick={handleRefresh}
+			disabled={isRefreshing}>
+			<RefreshCw className={`${isRefreshing ? "animate-spin" : ""}`} />
 		</Button>
 	);
 }

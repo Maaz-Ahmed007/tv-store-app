@@ -5,13 +5,17 @@ import { revalidatePath } from "next/cache";
 
 // ✅ Customer Schema
 import {
+	getCustomerSchema,
 	customerSchema,
 	saleSchema,
-	transactionSchema,
 	CustomerTypes,
-	SaleType,
-	TransactionType,
+	SaleTypes,
+	PaymentTypes,
+	getPaymentSchema,
 } from "@/utils/validations";
+
+// ✅ Sale total Calculation
+import { calculateSaleTotalAmount } from "@/utils/calculations";
 
 // ✅ Get Customers
 export async function getCustomers() {
@@ -27,12 +31,19 @@ export async function getCustomers() {
 						},
 					},
 				},
-				transactions: true,
+				payments: true,
 			},
 			orderBy: { createdAt: "desc" },
 		});
 
-		return { success: true, customers };
+		const parsedCustomers = getCustomerSchema.array().safeParse(customers);
+
+		if (!parsedCustomers.success) {
+			console.error("Data validation error:", parsedCustomers.error);
+			return { error: { general: "Data validation error occurred." } };
+		}
+
+		return { success: true, customers: parsedCustomers.data };
 	} catch (error) {
 		return {
 			error: { general: "Something went wrong. Please try again." },
@@ -66,7 +77,7 @@ export async function saveCustomer(id: string | null, data: CustomerTypes) {
 }
 
 // ✅ Add Sale
-export async function addSale(data: SaleType) {
+export async function addSale(data: SaleTypes) {
 	const parsedData = saleSchema.safeParse(data);
 
 	if (!parsedData.success) {
@@ -74,19 +85,25 @@ export async function addSale(data: SaleType) {
 	}
 
 	try {
+		const totalAmount = calculateSaleTotalAmount(parsedData.data.items)
+		
 		const sale = await prisma.sale.create({
 			data: {
 				customerId: parsedData.data.customerId,
-				totalAmount: parsedData.data.totalAmount,
+				totalAmount,
 				items: {
-					create: parsedData.data.items,
+					create: parsedData.data.items.map((item) => ({
+						productId: item.productId,
+						quantity: item.quantity,
+						price: item.price,
+					})),
 				},
 			},
 			include: {
 				items: {
 					include: {
 						product: true,
-					}
+					},
 				},
 			},
 		});
@@ -97,7 +114,6 @@ export async function addSale(data: SaleType) {
 				where: { id: item.productId },
 				data: {
 					quantity: { decrement: item.quantity },
-					// sold: { increment: item.quantity },
 				},
 			});
 		}
@@ -111,27 +127,48 @@ export async function addSale(data: SaleType) {
 	}
 }
 
-// ✅ Add Transaction (Credit or Debit)
-export async function addTransaction(data: TransactionType) {
-	const parsedData = transactionSchema.safeParse(data);
+// ✅ Add Payment
+export async function addPayment(data: PaymentTypes) {
+	const parsedData = getPaymentSchema.safeParse(data);
 
 	if (!parsedData.success) {
 		return { error: parsedData.error.flatten().fieldErrors };
 	}
 
 	try {
-		const transaction = await prisma.transaction.create({
+		const payment = await prisma.payment.create({
 			data: parsedData.data,
 		});
 
 		revalidatePath("/");
-		return { success: true, transaction };
+		return { success: true, payment };
 	} catch (error) {
 		return {
 			error: { general: "Something went wrong. Please try again." },
 		};
 	}
 }
+
+// export async function addTransaction(data: TransactionTypes) {
+// 	const parsedData = transactionSchema.safeParse(data);
+
+// 	if (!parsedData.success) {
+// 		return { error: parsedData.error.flatten().fieldErrors };
+// 	}
+
+// 	try {
+// 		const transaction = await prisma.transaction.create({
+// 			data: parsedData.data,
+// 		});
+
+// 		revalidatePath("/");
+// 		return { success: true, transaction };
+// 	} catch (error) {
+// 		return {
+// 			error: { general: "Something went wrong. Please try again." },
+// 		};
+// 	}
+// }
 
 // ✅ Delete Customer
 export async function deleteCustomer(id: string) {

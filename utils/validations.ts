@@ -65,26 +65,46 @@ export type SaleTypes = z.infer<typeof saleSchema>;
 
 // Transaction
 
-export const getTransactionSchema = z.object({
+// export const getTransactionSchema = z.object({
+// 	id: z.string(),
+// 	customerId: z.string(),
+// 	type: z.enum(["credit", "debit"]),
+// 	amount: z.number().min(0, "Amount must be positive"),
+// 	description: z.string().optional(),
+// 	createdAt: z.date().optional(),
+// 	updatedAt: z.date().optional(),
+// });
+
+// export type GetTransactionTypes = z.infer<typeof getTransactionSchema>;
+
+// export const transactionSchema = z.object({
+// 	customerId: z.string(),
+// 	type: z.enum(["credit", "debit"]),
+// 	amount: z.number().min(0, "Amount must be positive"),
+// 	description: z.string().optional(),
+// });
+
+// export type TransactionTypes = z.infer<typeof transactionSchema>;
+
+// Payment
+export const getPaymentSchema = z.object({
 	id: z.string(),
 	customerId: z.string(),
-	type: z.enum(["credit", "debit"]),
 	amount: z.number().min(0, "Amount must be positive"),
 	description: z.string().optional(),
 	createdAt: z.date().optional(),
 	updatedAt: z.date().optional(),
 });
 
-export type GetTransactionTypes = z.infer<typeof getTransactionSchema>;
+export type GetPaymentTypes = z.infer<typeof getPaymentSchema>;
 
-export const transactionSchema = z.object({
+export const paymentSchema = z.object({
 	customerId: z.string(),
-	type: z.enum(["credit", "debit"]),
 	amount: z.number().min(0, "Amount must be positive"),
 	description: z.string().optional(),
 });
 
-export type TransactionTypes = z.infer<typeof transactionSchema>;
+export type PaymentTypes = z.infer<typeof paymentSchema>;
 
 // Customer
 export const getCustomerSchema = z.object({
@@ -103,7 +123,8 @@ export const getCustomerSchema = z.object({
 			})
 		)
 		.optional(),
-	transactions: z.array(getTransactionSchema).optional(),
+	// transactions: z.array(getTransactionSchema).optional(),
+	payments: z.array(getPaymentSchema).optional(),
 });
 
 export type GetCustomerTypes = z.infer<typeof getCustomerSchema>;

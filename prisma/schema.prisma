@@ -50,7 +50,8 @@ model Customer {
   phone String?
 
   sales        Sale[]
-  transactions Transaction[]
+  payments     Payment[]
+  // transactions Transaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -62,6 +63,7 @@ model Sale {
   customer    Customer   @relation(fields: [customerId], references: [id])
   items       SaleItem[]
   totalAmount Float
+  // TODO: add description/details to sales
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,11 +82,22 @@ model SaleItem {
   updatedAt DateTime @updatedAt
 }
 
-model Transaction {
+// model Transaction {
+//   id          String   @id @default(uuid())
+//   customerId  String
+//   customer    Customer @relation(fields: [customerId], references: [id])
+//   type        String // "credit" or "debit"
+//   amount      Float
+//   description String?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+model Payment {
   id          String   @id @default(uuid())
   customerId  String
   customer    Customer @relation(fields: [customerId], references: [id])
-  type        String // "credit" or "debit"
   amount      Float
   description String?
 

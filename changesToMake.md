@@ -26,15 +26,33 @@ TODO - Server Actions + client & server side error handling
 
 Things to change and add >>
 
+Total Components we will be adding for sales page:
+AddCustomer - To create customer (OverlayPage)
+AddSales - To create sales for customer (OverlayPage)
+AddPayments - To create payments for customer (OverlayPage)
+OverlayPage - For all overlay pages
+RefreshButton - To refresh the selected page
+SearchCustomer - searchbar component that searches for customer by name
+CustomerList - Table to get customers and their balance in table in sales page
+CustomerPage - To manage customer details (OverlayPage)
+CustomerSalesPage - To manage sales, payments and customer balance (OverlayPage)
+CustomerSalesList - Table to display sales and payments in CustomerSalesPage
+SaleDetail - To manage individual sale (OverlayPage)
+PaymentDetail - To manage individual payment (OverlayPage)
+
 TODO: Sales and products page should load faster when switching between two
 
 schema.prisma
-TODO: Finish and complete schema.prisma
+TODO: Finish and complete schema.prisma ✅
 
 validations.ts
-TODO: Create proper types for getCustomerSchema and complete other types and schemas
+TODO: Create proper types for getCustomerSchema and complete other types and schemas ✅
+
+calculations.ts
+TODO: ✅
 
 sales page.tsx
+Sales page is a component that keeps record of customers and sales they have made, In here user will create sales only for the available products and we will also need to take payment from customers for the product they have bought from user.
 TODO: Properly implement and finish the sales page and keep it server component
 
 CustomerList.tsx
@@ -63,3 +81,24 @@ TODO: Use this date format for all website: {format( new Date(item.createdAt), "
 TODO: Add sale will open AddSale Overlay page.
 TODO: Add Credit will open AddTransaction Overlay page.
 TODO: Add Debit will open AddTransaction Overlay page.
+
+
+I have created a finance and inventory management system website for a store in next js, using prisma ORM, zod validations and server actions. I am using latest version of next js.
+
+I have created two pages so far, products page and sales page as default page. This website will serve as a mobile app for client who are using it on mobile devices.
+
+Most of products page is good, correctly implemented and functional, but sales page is not ready yet and there are some components I want to make sure it is using in right places.
+
+calculations.ts, these are the calculations for customers, sales and payments:
+
+customers.ts this is the server actions for customers:
+
+products.ts server actions for products:
+
+RefreshButton.tsx is a page refreshing button component that on clicks should properly refresh the page and if data is not correctly fetch from database it should come handy in refreshing and making sure the selected page is working and running correctly with all the data fetched:
+
+OverlayPage.tsx is a component that we will use for mobile devices, where when user want to create or update a customer, sales, transaction, product or anything instead of separate page opening on different url, overlay page will open on the same url where we will manage most of the functionality:
+
+DashboardWrapper.tsx and BottomNav.tsx are the components we are using to display the mobile menu, this is the not the final version that will be used in the production version but for now this is the placeholder:
+
+lastly AddCustomerButton.tsx component is a component that is used to open the customer form where we creates customers, but I want to this code to create a component that is also for updating customer, creating and updating sales, payments, products and everything related that needs a page bottom button for opening an overlay page.

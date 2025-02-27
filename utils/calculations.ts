@@ -1,8 +1,7 @@
-import {
+import type {
 	GetCustomerTypes,
 	GetSaleTypes,
-	GetSaleItemTypes,
-	GetTransactionTypes,
+	GetPaymentTypes,
 } from "@/utils/validations";
 
 /**
@@ -10,13 +9,15 @@ import {
  * @param items - Array of sale items
  * @returns The total amount of the sale
  */
-export function calculateSaleTotalAmount(items: GetSaleItemTypes[]): number {
+export function calculateSaleTotalAmount(
+	items: { quantity: number; price: number }[]
+): number {
 	return items.reduce((total, item) => total + item.price * item.quantity, 0);
 }
 
 /**
- * Calculates the balance for a customer based on their sales and transactions.
- * @param customer - Customer object with optional sales and transactions
+ * Calculates the balance for a customer based on their sales and payments.
+ * @param customer - Customer object with optional sales and payments
  * @returns The calculated balance for the customer
  */
 export function calculateCustomerBalance(customer: GetCustomerTypes): number {
@@ -25,15 +26,13 @@ export function calculateCustomerBalance(customer: GetCustomerTypes): number {
 			(total, sale) => total + (sale.totalAmount ?? 0),
 			0
 		) ?? 0;
-	const transactionsTotal =
-		customer.transactions?.reduce((total, transaction) => {
-			const amount = transaction.amount ?? 0;
-			return transaction.type === "credit"
-				? total + amount
-				: total - amount;
-		}, 0) ?? 0;
+	const paymentsTotal =
+		customer.payments?.reduce(
+			(total, payment) => total + (payment.amount ?? 0),
+			0
+		) ?? 0;
 
-	return salesTotal + transactionsTotal;
+	return salesTotal - paymentsTotal;
 }
 
 /**
@@ -91,14 +90,14 @@ export function sortSalesByDate(sales: GetSaleTypes[]): GetSaleTypes[] {
 }
 
 /**
- * Sorts transactions by date in descending order.
- * @param transactions - Array of transaction objects
- * @returns Sorted array of transactions
+ * Sorts payments by date in descending order.
+ * @param payments - Array of payment objects
+ * @returns Sorted array of payments
  */
-export function sortTransactionsByDate(
-	transactions: GetTransactionTypes[]
-): GetTransactionTypes[] {
-	return [...transactions].sort((a, b) => {
+export function sortPaymentsByDate(
+	payments: GetPaymentTypes[]
+): GetPaymentTypes[] {
+	return [...payments].sort((a, b) => {
 		const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
 		const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
 		return dateB - dateA;
@@ -120,17 +119,41 @@ export function calculateTotalSales(customer: GetCustomerTypes): number {
 }
 
 /**
- * Calculates the net transaction amount for a customer.
+ * Calculates the total payments made by a customer.
  * @param customer - Customer object
- * @returns The net transaction amount (positive for credit, negative for debit)
+ * @returns The total payments amount
  */
-export function calculateNetTransactions(customer: GetCustomerTypes): number {
+export function calculateTotalPayments(customer: GetCustomerTypes): number {
 	return (
-		customer.transactions?.reduce((total, transaction) => {
-			const amount = transaction.amount ?? 0;
-			return transaction.type === "credit"
-				? total + amount
-				: total - amount;
-		}, 0) ?? 0
+		customer.payments?.reduce(
+			(total, payment) => total + (payment.amount ?? 0),
+			0
+		) ?? 0
+	);
+}
+
+/**
+ * Calculates the final balance for a customer, including sales and payments.
+ * @param customer - Customer object
+ * @returns The final balance for the customer
+ */
+export function calculateCustomerFinalBalance(
+	customer: GetCustomerTypes
+): number {
+	const salesTotal = calculateTotalSales(customer);
+	const paymentsTotal = calculateTotalPayments(customer);
+
+	return salesTotal - paymentsTotal;
+}
+
+/**
+ * Calculates the total balance across all customers.
+ * @param customers - Array of customer objects
+ * @returns The total balance amount
+ */
+export function calculateTotalBalance(customers: GetCustomerTypes[]): number {
+	return customers.reduce(
+		(total, customer) => total + calculateCustomerFinalBalance(customer),
+		0
 	);
 }
