@@ -47,7 +47,7 @@ To get a local copy up and running, follow these simple steps:
 
 1. Clone the repository
    ```
-   git clone https://github.com/yourusername/tv-store-app.git
+   git clone https://github.com/Maaz-Ahmed007/tv-store-app.git
    ```
 
 2. Navigate to the project directory
@@ -88,7 +88,7 @@ To get a local copy up and running, follow these simple steps:
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/yourusername/tv-store-app/issues). 
+Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/Maaz-Ahmed007/tv-store-app/issues). 
 
 To contribute to TV Store Management App, follow these steps:
 
@@ -105,7 +105,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Contact
 
-If you want to contact me, you can reach me at `your-email@example.com`.
+If you want to contact me, you can reach me at `maaz.ahmedaa@egmail.com`.
 
 ## 🙏 Acknowledgements
 
@@ -116,7 +116,7 @@ If you want to contact me, you can reach me at `your-email@example.com`.
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by Maaz Ahmed
 
 ```
 
