@@ -1,6 +1,6 @@
-"use client";
+import { Edit, Plus, Trash2 } from "lucide-react";
 
-import { useState } from "react";
+import Button from "../Button";
 
 type Product = {
 	id: string;
@@ -9,49 +9,52 @@ type Product = {
 	model: string;
 	price: number;
 	stock: number;
+	imageUrl: string;
 };
 
-export default function ProductsPage() {
-	const [products] = useState<Product[]>([
-		{
-			id: "1",
-			name: "Samsung QLED",
-			brand: "Samsung",
-			model: "Q80A",
-			price: 1299,
-			stock: 5,
-		},
-		// More sample products...
-	]);
-
+export default function ProductsPage({ products }: { products: Product[] }) {
 	return (
-		<div>
-			<h1 className="text-2xl font-bold mb-4 text-black">
-				Product Inventory
-			</h1>
-
+		<div className="p-4 space-y-4">
 			{/* Add Product Button */}
-			<button className="bg-blue-500 text-white px-4 py-2 rounded mb-4">
-				Add New Product
-			</button>
+			<Button
+				variant="primary"
+				className="w-full flex items-center justify-center">
+				<Plus className="mr-2" /> Add New Product
+			</Button>
 
-			{/* Product List */}
-			<div className="space-y-2">
+			<div className="space-y-3">
 				{products.map((product) => (
 					<div
 						key={product.id}
-						className="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
-						<div>
-							<h3 className="font-semibold text-gray-700">
+						className="bg-white rounded-lg shadow-md p-4 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
+						<img
+							src={product.imageUrl}
+							alt={product.name}
+							className="w-20 h-16 object-cover rounded-md"
+						/>
+						<div className="flex-grow">
+							<h3 className="font-semibold text-gray-800">
 								{product.name}
 							</h3>
 							<p className="text-sm text-gray-500">
-								Stock: {product.stock} | ${product.price}
+								{product.brand} | {product.model}
 							</p>
+							<div className="flex justify-between mt-2">
+								<span className="text-gray-600">
+									Stock: {product.stock}
+								</span>
+								<span className="font-semibold">
+									${product.price}
+								</span>
+							</div>
 						</div>
 						<div className="flex space-x-2">
-							<button className="text-blue-500">Edit</button>
-							<button className="text-red-500">Delete</button>
+							<Button variant="secondary" size="sm">
+								<Edit size={16} />
+							</Button>
+							<Button variant="danger" size="sm">
+								<Trash2 size={16} />
+							</Button>
 						</div>
 					</div>
 				))}

@@ -1,44 +1,49 @@
+import Button from "../Button";
+
 export default function SettingsPage() {
 	return (
-		<div>
-			<h1 className="text-2xl font-bold mb-4">App Settings</h1>
-
-			<div className="space-y-4">
-				{/* Account Settings Section */}
-				<section className="bg-white rounded-lg p-4 shadow-sm">
-					<h2 className="font-semibold mb-2">Account</h2>
-					<div className="space-y-2">
-						<div className="flex justify-between items-center">
-							<span>Name</span>
-							<button className="text-blue-500">Edit</button>
-						</div>
-						<div className="flex justify-between items-center">
-							<span>Email</span>
-							<button className="text-blue-500">Edit</button>
-						</div>
+		<div className="p-4 space-y-4">
+			<div className="bg-white rounded-lg shadow-md p-4">
+				<h2 className="text-lg font-semibold mb-3">Account Settings</h2>
+				<div className="space-y-3">
+					<div className="flex justify-between items-center">
+						<span className="text-gray-600">Name</span>
+						<Button variant="secondary" size="sm">
+							Edit
+						</Button>
 					</div>
-				</section>
-
-				{/* App Preferences Section */}
-				<section className="bg-white rounded-lg p-4 shadow-sm">
-					<h2 className="font-semibold mb-2">App Preferences</h2>
-					<div className="space-y-2">
-						<div className="flex justify-between items-center">
-							<span>Dark Mode</span>
-							<input type="checkbox" className="form-checkbox" />
-						</div>
-						<div className="flex justify-between items-center">
-							<span>Notifications</span>
-							<input type="checkbox" className="form-checkbox" />
-						</div>
+					<div className="flex justify-between items-center">
+						<span className="text-gray-600">Email</span>
+						<Button variant="secondary" size="sm">
+							Edit
+						</Button>
 					</div>
-				</section>
-
-				{/* Logout Button */}
-				<button className="w-full bg-red-500 text-white py-2 rounded">
-					Logout
-				</button>
+				</div>
 			</div>
+
+			<div className="bg-white rounded-lg shadow-md p-4">
+				<h2 className="text-lg font-semibold mb-3">App Preferences</h2>
+				<div className="space-y-3">
+					<div className="flex justify-between items-center">
+						<span className="text-gray-600">Dark Mode</span>
+						<input
+							type="checkbox"
+							className="form-checkbox h-5 w-5 text-blue-600"
+						/>
+					</div>
+					<div className="flex justify-between items-center">
+						<span className="text-gray-600">Notifications</span>
+						<input
+							type="checkbox"
+							className="form-checkbox h-5 w-5 text-blue-600"
+						/>
+					</div>
+				</div>
+			</div>
+
+			<Button variant="danger" className="w-full">
+				Logout
+			</Button>
 		</div>
 	);
 }

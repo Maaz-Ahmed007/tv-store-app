@@ -1,55 +1,68 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronLeft } from "lucide-react";
 
 import CustomerDetailsModal from "../modals/CustomerDetails";
 
 type Customer = {
 	id: string;
 	name: string;
+	email: string;
 	phone: string;
 	totalPurchases: number;
 	remainingPayment: number;
+	transactions: Transaction[];
 };
 
-export default function SalesPage() {
-	const [customers] = useState<Customer[]>([
-		{
-			id: "1",
-			name: "John Doe",
-			phone: "123-456-7890",
-			totalPurchases: 5000,
-			remainingPayment: 1500,
-		},
-		// More sample customers...
-	]);
+type Product = {
+	id: string;
+	name: string;
+	brand: string;
+	model: string;
+	price: number;
+	stock: number;
+	imageUrl: string;
+};
 
+type Transaction = {
+	id: string;
+	customerId: string;
+	productId: string;
+	date: string;
+	amount: number;
+	isPaid: boolean;
+};
+
+export default function SalesPage({
+	customers,
+	products,
+}: {
+	customers: Customer[];
+	products: Product[];
+}) {
 	const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
 		null
 	);
 
 	return (
-		<div>
-			<h1 className="text-2xl font-bold mb-4 text-black">
-				Customer Sales
-			</h1>
-
+		<div className="p-4 space-y-4">
 			{/* Customer List */}
-			<div className="space-y-2">
+			<div className="space-y-3">
 				{customers.map((customer) => (
 					<div
 						key={customer.id}
 						onClick={() => setSelectedCustomer(customer)}
-						className="bg-white p-3 rounded-lg shadow-sm flex justify-between items-center">
+						className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
 						<div>
-							<h3 className="font-semibold text-gray-700">
+							<h3 className="font-semibold text-gray-800">
 								{customer.name}
 							</h3>
 							<p className="text-sm text-gray-500">
 								Remaining: ${customer.remainingPayment}
 							</p>
 						</div>
-						<span className="text-blue-500">Details</span>
+						<ChevronLeft className="text-gray-400" />
 					</div>
 				))}
 			</div>
@@ -58,6 +71,7 @@ export default function SalesPage() {
 			{selectedCustomer && (
 				<CustomerDetailsModal
 					customer={selectedCustomer}
+					products={products}
 					onClose={() => setSelectedCustomer(null)}
 				/>
 			)}
