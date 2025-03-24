@@ -12,7 +12,7 @@ type Product = {
 };
 
 export default function ProductsPage() {
-	const [products, setProducts] = useState<Product[]>([
+	const [products] = useState<Product[]>([
 		{
 			id: "1",
 			name: "Samsung QLED",
@@ -22,17 +22,6 @@ export default function ProductsPage() {
 			stock: 5,
 		},
 		// More sample products...
-	]);
-
-	setProducts([
-		{
-			id: "1",
-			name: "Samsung QLED",
-			brand: "Samsung",
-			model: "Q80A",
-			price: 1299,
-			stock: 5,
-		},
 	]);
 
 	return (

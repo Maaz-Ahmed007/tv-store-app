@@ -13,7 +13,7 @@ type Customer = {
 };
 
 export default function SalesPage() {
-	const [customers, setCustomers] = useState<Customer[]>([
+	const [customers] = useState<Customer[]>([
 		{
 			id: "1",
 			name: "John Doe",
@@ -22,16 +22,6 @@ export default function SalesPage() {
 			remainingPayment: 1500,
 		},
 		// More sample customers...
-	]);
-
-	setCustomers([
-		{
-			id: "1",
-			name: "John Doe",
-			phone: "123-456-7890",
-			totalPurchases: 5000,
-			remainingPayment: 1500,
-		},
 	]);
 
 	const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
