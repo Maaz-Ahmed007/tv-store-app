@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { ShoppingCart, Settings, Smartphone } from "lucide-react";
 
-import SalesPage from "./pages/Sales";
-import ProductsPage from "./pages/Products";
-import SettingsPage from "./pages/Settings";
+import SalesPage from "../components/pages/Sales";
+import ProductsPage from "../components/pages/Products";
+import SettingsPage from "../components/pages/Settings";
 
-export default function HomePage() {
+export default function Page() {
 	const [currentPage, setCurrentPage] = useState<
 		"sales" | "products" | "settings"
 	>("sales");

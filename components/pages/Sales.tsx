@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import CustomerDetailsModal from "../components/modals/CustomerDetails";
+import CustomerDetailsModal from "../modals/CustomerDetails";
 
 type Customer = {
 	id: string;
