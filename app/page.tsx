@@ -33,7 +33,7 @@ export default function Page() {
 			<header className="bg-white shadow-sm p-4 flex justify-between items-center">
 				<h1 className="text-xl font-bold text-gray-800">
 					{currentPage === "sales"
-						? "Customer Sales updated 2"
+						? "Customer Sales"
 						: currentPage === "products"
 						? "Product Inventory"
 						: "App Settings"}
@@ -67,7 +67,7 @@ export default function Page() {
 			</div>
 
 			{/* Bottom Navigation */}
-			<nav className="bg-white border-t border-gray-200 flex justify-around py-3 sticky">
+			<nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-30 touch-none">
 				{[
 					{ page: "sales", icon: ShoppingCart, label: "Sales" },
 					{ page: "products", icon: Smartphone, label: "Products" },

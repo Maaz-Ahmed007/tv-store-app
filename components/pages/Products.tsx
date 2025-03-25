@@ -14,7 +14,7 @@ type Product = {
 
 export default function ProductsPage({ products }: { products: Product[] }) {
 	return (
-		<div className="p-4 space-y-4">
+		<div className="p-4 space-y-4 pb-20">
 			{/* Add Product Button */}
 			<Button
 				variant="primary"
