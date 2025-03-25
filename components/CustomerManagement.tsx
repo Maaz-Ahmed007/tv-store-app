@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 
@@ -37,7 +39,9 @@ const CustomerManagement = ({
 }) => {
 	// Handle browser back button
 	useEffect(() => {
+		console.log("useEffect initialized");
 		const handlePopState = () => {
+			console.log("useEffect function");
 			// If the URL no longer has the manage parameter, close the management view
 			if (!window.location.search.includes("manage=true")) {
 				onClose();
