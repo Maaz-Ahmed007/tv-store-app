@@ -1,7 +1,7 @@
+import { useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 
 import Button from "./Button";
-import { useEffect } from "react";
 
 type Customer = {
 	id: string;
