@@ -80,13 +80,22 @@ export default function Page() {
 								page as "sales" | "products" | "settings"
 							)
 						}
-						className={`flex flex-col items-center transform transition-all duration-300 ${
+						className={`flex flex-col items-center px-4 py-1 rounded-lg transition-all duration-300 ${
 							currentPage === page
-								? "text-blue-600 scale-110"
+								? "text-blue-600"
 								: "text-gray-500 hover:text-blue-400"
 						}`}>
-						<Icon />
-						<span className="text-xs mt-1">{label}</span>
+						<Icon
+							className={`transition-transform duration-300 ${
+								currentPage === page ? "scale-110" : ""
+							}`}
+						/>
+						<span
+							className={`text-xs mt-1 transition-all duration-100 ${
+								currentPage === page ? "font-semibold" : ""
+							}`}>
+							{label}
+						</span>
 					</button>
 				))}
 			</nav>

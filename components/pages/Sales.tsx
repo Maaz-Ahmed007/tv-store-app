@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 
 import CustomerDetailsModal from "../modals/CustomerDetails";
@@ -45,8 +45,31 @@ export default function SalesPage({
 		null
 	);
 
+	// Custom Hook for Smooth Scrolling Prevention
+	const usePreventScroll = () => {
+		useEffect(() => {
+			// Prevent overscroll/bouncing on mobile
+			const preventOverscroll = (e: TouchEvent) => {
+				e.preventDefault();
+			};
+
+			document.body.addEventListener("touchmove", preventOverscroll, {
+				passive: false,
+			});
+
+			return () => {
+				document.body.removeEventListener(
+					"touchmove",
+					preventOverscroll
+				);
+			};
+		}, []);
+	};
+
+	usePreventScroll();
+	
 	return (
-		<div className="p-4 space-y-4 pb-20">
+		<div className="p-4 space-y-4 pb-[90px]">
 			{/* Customer List */}
 			<div className="space-y-3">
 				{customers.map((customer) => (
