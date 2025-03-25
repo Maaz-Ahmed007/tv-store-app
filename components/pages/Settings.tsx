@@ -3,7 +3,13 @@ import Button from "../Button";
 
 export default function SettingsPage() {
 	return (
-		<div className="p-4 space-y-4">
+		<div
+			className="p-4 space-y-4 overscroll-contain touch-pan-y"
+			style={{
+				// Prevent pull-to-refresh and bouncy scrolling on iOS
+				WebkitOverflowScrolling: "touch",
+				overscrollBehavior: "contain",
+			}}>
 			<div className="bg-white rounded-lg shadow-md p-4">
 				<h2 className="text-lg font-semibold mb-3">Account Settings</h2>
 				<div className="space-y-3">

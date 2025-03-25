@@ -1,6 +1,9 @@
-import { Suspense } from "react";
+"use client";
 
-import SalesPageClient from "../SalesPageClient";
+import { useState } from "react";
+import { ChevronLeft } from "lucide-react";
+
+import CustomerDetailsModal from "../modals/CustomerDetails";
 
 type Customer = {
 	id: string;
@@ -44,9 +47,40 @@ export default function SalesPage({
 	customers: Customer[];
 	products: Product[];
 }) {
+	const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+		null
+	);
+
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
-			<SalesPageClient customers={customers} products={products} />
-		</Suspense>
+		<div className="p-4 space-y-4 pb-[90px]">
+			{/* Customer List */}
+			<div className="space-y-3">
+				{customers.map((customer) => (
+					<div
+						key={customer.id}
+						onClick={() => setSelectedCustomer(customer)}
+						className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
+						<div>
+							<h3 className="font-semibold text-gray-800">
+								{customer.name}
+							</h3>
+							<p className="text-sm text-gray-500">
+								Remaining: ${customer.remainingBalance}
+							</p>
+						</div>
+						<ChevronLeft className="text-gray-400" />
+					</div>
+				))}
+			</div>
+
+			{/* Customer Details Modal */}
+			{selectedCustomer && (
+				<CustomerDetailsModal
+					customer={selectedCustomer}
+					products={products}
+					onClose={() => setSelectedCustomer(null)}
+				/>
+			)}
+		</div>
 	);
 }

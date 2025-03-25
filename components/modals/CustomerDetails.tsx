@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import {
 	ChevronLeft,
 	CreditCard,
@@ -12,7 +12,6 @@ import {
 
 import Button from "../Button";
 import CustomerManagement from "../CustomerManagement";
-import { useEffect } from "react";
 
 type Customer = {
 	id: string;
@@ -58,45 +57,7 @@ const CustomerDetailsModal = ({
 	products: Product[];
 	onClose: () => void;
 }) => {
-	const router = useRouter();
-	const searchParams = useSearchParams();
-
-	// Check if manage customer view is active
-	const showManageCustomer = searchParams.get("manage") === "true";
-
-	// Function to open manage customer view
-	const openManageCustomer = () => {
-		const params = new URLSearchParams(searchParams.toString());
-		params.set("manage", "true");
-		router.push(`?${params.toString()}`);
-	};
-
-	// Function to close manage customer view
-	const closeManageCustomer = () => {
-		const params = new URLSearchParams(searchParams.toString());
-		params.delete("manage");
-		router.push(`?${params.toString()}`);
-	};
-
-	// Handle browser back button
-	useEffect(() => {
-		const handlePopState = () => {
-			// If the URL no longer has the customerId parameter, close the modal
-			if (!window.location.search.includes("customerId=")) {
-				onClose();
-			}
-			// If the URL no longer has the manage parameter, close the management view
-			if (
-				showManageCustomer &&
-				!window.location.search.includes("manage=true")
-			) {
-				closeManageCustomer();
-			}
-		};
-
-		window.addEventListener("popstate", handlePopState);
-		return () => window.removeEventListener("popstate", handlePopState);
-	}, [onClose, showManageCustomer]);
+	const [showManageCustomer, setShowManageCustomer] = useState(false);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
@@ -113,7 +74,7 @@ const CustomerDetailsModal = ({
 				<Button
 					variant="secondary"
 					size="sm"
-					onClick={openManageCustomer}
+					onClick={() => setShowManageCustomer(true)}
 					className="ml-2">
 					<MoreVertical size={18} />
 				</Button>
@@ -153,16 +114,7 @@ const CustomerDetailsModal = ({
 				{customer.transactions.map((transaction) => (
 					<div
 						key={transaction.id}
-						className="
-              bg-white 
-              border 
-              rounded-lg 
-              p-3 
-              mb-3 
-              shadow-sm 
-              flex 
-              items-center
-            ">
+						className="bg-white border rounded-lg p-3 mb-3 shadow-sm flex items-center">
 						<div className="flex-grow">
 							<div className="flex justify-between">
 								<span className="font-medium">
@@ -173,19 +125,13 @@ const CustomerDetailsModal = ({
 									{transaction.type === "refund" && "Refund"}
 								</span>
 								<span
-									className={`
-                    text-xs 
-                    px-2 
-                    py-1 
-                    rounded 
-                    ${
-						transaction.type === "sale"
-							? "bg-blue-100 text-blue-800"
-							: transaction.type === "payment"
-							? "bg-green-100 text-green-800"
-							: "bg-red-100 text-red-800"
-					}
-                  `}>
+									className={`text-xs px-2 py-1 rounded ${
+										transaction.type === "sale"
+											? "bg-blue-100 text-blue-800"
+											: transaction.type === "payment"
+											? "bg-green-100 text-green-800"
+											: "bg-red-100 text-red-800"
+									}`}>
 									{transaction.date}
 								</span>
 							</div>
@@ -210,16 +156,13 @@ const CustomerDetailsModal = ({
 									)}
 								</div>
 								<span
-									className={`
-                    font-bold 
-                    ${
-						transaction.type === "sale"
-							? "text-red-600"
-							: transaction.type === "payment"
-							? "text-green-600"
-							: "text-gray-600"
-					}
-                  `}>
+									className={`font-bold ${
+										transaction.type === "sale"
+											? "text-red-600"
+											: transaction.type === "payment"
+											? "text-green-600"
+											: "text-gray-600"
+									}`}>
 									{transaction.type === "sale" ? "-" : "+"}$
 									{transaction.amount.toFixed(2)}
 								</span>
@@ -290,7 +233,7 @@ const CustomerDetailsModal = ({
 			{showManageCustomer && (
 				<CustomerManagement
 					customer={customer}
-					onClose={closeManageCustomer}
+					onClose={() => setShowManageCustomer(false)}
 				/>
 			)}
 		</div>
