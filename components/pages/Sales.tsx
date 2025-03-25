@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import CustomerDetailsModal from "../modals/CustomerDetails";
@@ -11,8 +12,23 @@ type Customer = {
 	email: string;
 	phone: string;
 	totalPurchases: number;
-	remainingPayment: number;
+	totalPaid: number;
+	remainingBalance: number;
 	transactions: Transaction[];
+};
+
+type Transaction = {
+	id: string;
+	type: "sale" | "payment" | "refund";
+	date: string;
+	amount: number;
+	productId?: string;
+	paymentMethod?: "cash" | "credit" | "installment";
+	installmentDetails?: {
+		totalInstallments: number;
+		paidInstallments: number;
+		remainingBalance: number;
+	};
 };
 
 type Product = {
@@ -25,15 +41,6 @@ type Product = {
 	imageUrl: string;
 };
 
-type Transaction = {
-	id: string;
-	customerId: string;
-	productId: string;
-	date: string;
-	amount: number;
-	isPaid: boolean;
-};
-
 export default function SalesPage({
 	customers,
 	products,
@@ -41,33 +48,32 @@ export default function SalesPage({
 	customers: Customer[];
 	products: Product[];
 }) {
-	const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-		null
-	);
+	const router = useRouter();
+	const searchParams = useSearchParams();
 
-	// Custom Hook for Smooth Scrolling Prevention
-	const usePreventScroll = () => {
-		useEffect(() => {
-			// Prevent overscroll/bouncing on mobile
-			const preventOverscroll = (e: TouchEvent) => {
-				e.preventDefault();
-			};
+	// Get customer ID from URL parameters
+	const selectedCustomerId = searchParams.get("customerId");
 
-			document.body.addEventListener("touchmove", preventOverscroll, {
-				passive: false,
-			});
+	// Find the selected customer from the ID in URL
+	const selectedCustomer = selectedCustomerId
+		? customers.find((c) => c.id === selectedCustomerId) || null
+		: null;
 
-			return () => {
-				document.body.removeEventListener(
-					"touchmove",
-					preventOverscroll
-				);
-			};
-		}, []);
+	// Function to open customer details
+	const openCustomerDetails = (customerId: string) => {
+		const params = new URLSearchParams(searchParams.toString());
+		params.set("customerId", customerId);
+		router.push(`?${params.toString()}`);
 	};
 
-	usePreventScroll();
-	
+	// Function to close customer details
+	const closeCustomerDetails = () => {
+		const params = new URLSearchParams(searchParams.toString());
+		params.delete("customerId");
+		params.delete("manage"); // Also remove manage parameter if it exists
+		router.push(`?${params.toString()}`);
+	};
+
 	return (
 		<div className="p-4 space-y-4 pb-[90px]">
 			{/* Customer List */}
@@ -75,14 +81,14 @@ export default function SalesPage({
 				{customers.map((customer) => (
 					<div
 						key={customer.id}
-						onClick={() => setSelectedCustomer(customer)}
+						onClick={() => openCustomerDetails(customer.id)}
 						className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
 						<div>
 							<h3 className="font-semibold text-gray-800">
 								{customer.name}
 							</h3>
 							<p className="text-sm text-gray-500">
-								Remaining: ${customer.remainingPayment}
+								Remaining: ${customer.remainingBalance}
 							</p>
 						</div>
 						<ChevronLeft className="text-gray-400" />
@@ -95,7 +101,7 @@ export default function SalesPage({
 				<CustomerDetailsModal
 					customer={selectedCustomer}
 					products={products}
-					onClose={() => setSelectedCustomer(null)}
+					onClose={closeCustomerDetails}
 				/>
 			)}
 		</div>

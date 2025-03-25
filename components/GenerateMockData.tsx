@@ -4,8 +4,23 @@ type Customer = {
 	email: string;
 	phone: string;
 	totalPurchases: number;
-	remainingPayment: number;
+	totalPaid: number;
+	remainingBalance: number;
 	transactions: Transaction[];
+};
+
+type Transaction = {
+	id: string;
+	type: "sale" | "payment" | "refund";
+	date: string;
+	amount: number;
+	productId?: string;
+	paymentMethod?: "cash" | "credit" | "installment";
+	installmentDetails?: {
+		totalInstallments: number;
+		paidInstallments: number;
+		remainingBalance: number;
+	};
 };
 
 type Product = {
@@ -18,15 +33,6 @@ type Product = {
 	imageUrl: string;
 };
 
-type Transaction = {
-	id: string;
-	customerId: string;
-	productId: string;
-	date: string;
-	amount: number;
-	isPaid: boolean;
-};
-
 const generateMockData = () => {
 	const customers: Customer[] = [
 		{
@@ -35,15 +41,16 @@ const generateMockData = () => {
 			email: "john.doe@example.com",
 			phone: "123-456-7890",
 			totalPurchases: 5000,
-			remainingPayment: 1500,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
 					id: "t1",
-					customerId: "1",
-					productId: "p1",
+					type: "sale",
 					date: "2024-03-15",
 					amount: 1200,
-					isPaid: false,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
@@ -52,178 +59,188 @@ const generateMockData = () => {
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "3",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "4",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "5",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "6",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "7",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "8",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "9",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "10",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},
 		{
-			id: "2",
+			id: "11",
 			name: "Jane Smith",
 			email: "jane.smith@example.com",
 			phone: "987-654-3210",
-			totalPurchases: 7500,
-			remainingPayment: 2500,
+			totalPurchases: 5000,
+			totalPaid: 3500,
+			remainingBalance: 1500,
 			transactions: [
 				{
-					id: "t2",
-					customerId: "2",
-					productId: "p2",
-					date: "2024-03-20",
-					amount: 2000,
-					isPaid: true,
+					id: "t1",
+					type: "sale",
+					date: "2024-03-15",
+					amount: 1200,
+					productId: "p1",
+					paymentMethod: "cash",
 				},
 			],
 		},

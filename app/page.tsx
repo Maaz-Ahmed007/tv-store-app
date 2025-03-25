@@ -6,9 +6,9 @@ import { ShoppingCart, Settings, Smartphone, RefreshCw } from "lucide-react";
 import generateMockData from "@/components/GenerateMockData";
 import Button from "@/components/Button";
 
-import SalesPage from "../components/pages/Sales";
-import ProductsPage from "../components/pages/Products";
-import SettingsPage from "../components/pages/Settings";
+import SalesPage from "@/components/pages/Sales";
+import ProductsPage from "@/components/pages/Products";
+import SettingsPage from "@/components/pages/Settings";
 
 export default function Page() {
 	const [currentPage, setCurrentPage] = useState<
