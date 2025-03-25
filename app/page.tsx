@@ -33,7 +33,7 @@ export default function Page() {
 			<header className="bg-white shadow-sm p-4 flex justify-between items-center">
 				<h1 className="text-xl font-bold text-gray-800">
 					{currentPage === "sales"
-						? "Customer Sales updated"
+						? "Customer Sales updated 2"
 						: currentPage === "products"
 						? "Product Inventory"
 						: "App Settings"}
@@ -47,7 +47,13 @@ export default function Page() {
 			</header>
 
 			{/* Main Content Area */}
-			<div className="flex-grow overflow-y-auto overscroll-contain touch-pan-y">
+			<div
+				className="flex-grow overflow-y-auto overscroll-contain touch-pan-y"
+				style={{
+					// Prevent pull-to-refresh and bouncy scrolling on iOS
+					WebkitOverflowScrolling: "touch",
+					overscrollBehavior: "contain",
+				}}>
 				{currentPage === "sales" && (
 					<SalesPage
 						customers={data.customers}
