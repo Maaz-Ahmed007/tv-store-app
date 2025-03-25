@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -12,6 +12,7 @@ import {
 
 import Button from "../Button";
 import CustomerManagement from "../CustomerManagement";
+import { useEffect } from "react";
 
 type Customer = {
 	id: string;
@@ -76,6 +77,26 @@ const CustomerDetailsModal = ({
 		params.delete("manage");
 		router.push(`?${params.toString()}`);
 	};
+
+	// Handle browser back button
+	useEffect(() => {
+		const handlePopState = () => {
+			// If the URL no longer has the customerId parameter, close the modal
+			if (!window.location.search.includes("customerId=")) {
+				onClose();
+			}
+			// If the URL no longer has the manage parameter, close the management view
+			if (
+				showManageCustomer &&
+				!window.location.search.includes("manage=true")
+			) {
+				closeManageCustomer();
+			}
+		};
+
+		window.addEventListener("popstate", handlePopState);
+		return () => window.removeEventListener("popstate", handlePopState);
+	}, [onClose, showManageCustomer]);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
