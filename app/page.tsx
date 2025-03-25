@@ -24,7 +24,7 @@ export default function Page() {
 		setTimeout(() => {
 			setData(generateMockData());
 			setIsLoading(false);
-		}, 3000);
+		}, 1000);
 	};
 
 	return (
@@ -33,22 +33,21 @@ export default function Page() {
 			<header className="bg-white shadow-sm p-4 flex justify-between items-center">
 				<h1 className="text-xl font-bold text-gray-800">
 					{currentPage === "sales"
-						? "Customer Sales"
+						? "Customer Sales updated"
 						: currentPage === "products"
 						? "Product Inventory"
 						: "App Settings"}
 				</h1>
-				<Button
-					variant="secondary"
-					size="sm"
-					onClick={refreshData}
-					className={`${isLoading ? "animate-spin" : ""}`}>
-					<RefreshCw size={18} />
+				<Button variant="secondary" size="sm" onClick={refreshData}>
+					<RefreshCw
+						size={18}
+						className={`${isLoading ? "animate-spin" : ""}`}
+					/>
 				</Button>
 			</header>
 
 			{/* Main Content Area */}
-			<div className="flex-grow overflow-y-auto p-4">
+			<div className="flex-grow overflow-y-auto overscroll-contain touch-pan-y">
 				{currentPage === "sales" && (
 					<SalesPage
 						customers={data.customers}

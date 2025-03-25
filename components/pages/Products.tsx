@@ -26,7 +26,7 @@ export default function ProductsPage({ products }: { products: Product[] }) {
 				{products.map((product) => (
 					<div
 						key={product.id}
-						className="bg-white rounded-lg shadow-md p-4 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
+						className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
 						<img
 							src={product.imageUrl}
 							alt={product.name}

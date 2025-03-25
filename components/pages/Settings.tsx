@@ -1,3 +1,4 @@
+import { Edit } from "lucide-react";
 import Button from "../Button";
 
 export default function SettingsPage() {
@@ -9,13 +10,13 @@ export default function SettingsPage() {
 					<div className="flex justify-between items-center">
 						<span className="text-gray-600">Name</span>
 						<Button variant="secondary" size="sm">
-							Edit
+							<Edit size={16} />
 						</Button>
 					</div>
 					<div className="flex justify-between items-center">
 						<span className="text-gray-600">Email</span>
 						<Button variant="secondary" size="sm">
-							Edit
+							<Edit size={16} />
 						</Button>
 					</div>
 				</div>
