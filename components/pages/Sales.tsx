@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 
-import CustomerDetailsModal from "../modals/CustomerDetails";
+import CustomerDetailsModal from "../popups/CustomerDetails";
 
 type Customer = {
 	id: string;
@@ -58,7 +58,15 @@ export default function SalesPage({
 				{customers.map((customer) => (
 					<div
 						key={customer.id}
-						onClick={() => setSelectedCustomer(customer)}
+						onClick={() => {
+							// Push a new history state when opening the customer details modal
+							window.history.pushState(
+								{ customerDetailsOpen: true },
+								"",
+								window.location.href
+							);
+							setSelectedCustomer(customer);
+						}}
 						className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
 						<div>
 							<h3 className="font-semibold text-gray-800">

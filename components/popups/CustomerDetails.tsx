@@ -10,8 +10,10 @@ import {
 	ShoppingCart,
 } from "lucide-react";
 
+import { useHistoryBack } from "@/hooks/useHistoryBack";
+
 import Button from "../Button";
-import CustomerManagement from "../CustomerManagement";
+import CustomerManagement from "./CustomerManagement";
 
 type Customer = {
 	id: string;
@@ -59,6 +61,17 @@ const CustomerDetailsModal = ({
 }) => {
 	const [showManageCustomer, setShowManageCustomer] = useState(false);
 
+	// Use our custom hook to handle back button presses
+	useHistoryBack(() => {
+		if (showManageCustomer) {
+			// If the management modal is open, close it first
+			setShowManageCustomer(false);
+		} else {
+			// Otherwise close the customer details modal
+			onClose();
+		}
+	});
+
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
 			{/* Header */}
@@ -74,7 +87,15 @@ const CustomerDetailsModal = ({
 				<Button
 					variant="secondary"
 					size="sm"
-					onClick={() => setShowManageCustomer(true)}
+					onClick={() => {
+						// Push a new history state when opening the management modal
+						window.history.pushState(
+							{ managementOpen: true },
+							"",
+							window.location.href
+						);
+						setShowManageCustomer(true);
+					}}
 					className="ml-2">
 					<MoreVertical size={18} />
 				</Button>
@@ -233,7 +254,10 @@ const CustomerDetailsModal = ({
 			{showManageCustomer && (
 				<CustomerManagement
 					customer={customer}
-					onClose={() => setShowManageCustomer(false)}
+					onClose={() => {
+						// Go back in history when closing the management modal
+						window.history.back();
+					}}
 				/>
 			)}
 		</div>

@@ -266,7 +266,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p3",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -275,7 +275,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p4",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -284,7 +284,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p5",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -293,7 +293,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p6",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -302,7 +302,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p7",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -311,7 +311,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p8",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -320,7 +320,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p9",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -329,7 +329,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p10",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -338,7 +338,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p11",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -347,7 +347,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p12",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -356,7 +356,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p13",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -365,7 +365,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p14",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -374,7 +374,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p15",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -383,7 +383,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p16",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -392,7 +392,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p17",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -401,7 +401,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p18",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -410,7 +410,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p19",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -419,7 +419,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p20",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -428,7 +428,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p21",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -437,7 +437,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p22",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",
@@ -446,7 +446,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p1",
+			id: "p23",
 			name: "Samsung QLED 4K",
 			brand: "Samsung",
 			model: "Q80A",
@@ -455,7 +455,7 @@ const generateMockData = () => {
 			imageUrl: "/api/placeholder/300/200",
 		},
 		{
-			id: "p2",
+			id: "p24",
 			name: "LG OLED TV",
 			brand: "LG",
 			model: "C1 Series",

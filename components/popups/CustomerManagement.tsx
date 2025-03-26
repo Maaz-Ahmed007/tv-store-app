@@ -1,9 +1,7 @@
-"use client"
-
-import { useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 
-import Button from "./Button";
+import Button from "../Button";
+import { useHistoryBack } from "@/hooks/useHistoryBack";
 
 type Customer = {
 	id: string;
@@ -37,20 +35,8 @@ const CustomerManagement = ({
 	customer: Customer;
 	onClose: () => void;
 }) => {
-	// Handle browser back button
-	useEffect(() => {
-		console.log("useEffect initialized");
-		const handlePopState = () => {
-			console.log("useEffect function");
-			// If the URL no longer has the manage parameter, close the management view
-			if (!window.location.search.includes("manage=true")) {
-				onClose();
-			}
-		};
-
-		window.addEventListener("popstate", handlePopState);
-		return () => window.removeEventListener("popstate", handlePopState);
-	}, [onClose]);
+	// Use our custom hook to handle back button presses
+	useHistoryBack(onClose);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
