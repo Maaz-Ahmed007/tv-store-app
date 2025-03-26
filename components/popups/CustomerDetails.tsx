@@ -60,12 +60,7 @@ const CustomerDetails = ({
 }) => {
 	const [showManageCustomer, setShowManageCustomer] = useState(false);
 
-	// Use our improved hook for this modal
-	useHistoryBack(
-		onClose,
-		`customer-details-${customer.id}`,
-		!showManageCustomer
-	);
+	useHistoryBack(`customer-details-${customer.id}`, onClose);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
@@ -84,9 +79,7 @@ const CustomerDetails = ({
 				<Button
 					variant="secondary"
 					size="sm"
-					onClick={() => {
-						setShowManageCustomer(true);
-					}}
+					onClick={() => setShowManageCustomer(true)}
 					className="ml-2">
 					<MoreVertical size={18} />
 				</Button>

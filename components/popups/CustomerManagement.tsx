@@ -35,7 +35,7 @@ const CustomerManagement = ({
 	customer: Customer;
 	onClose: () => void;
 }) => {
-	useHistoryBack(onClose, `customer-management-${customer.id}`);
+	useHistoryBack(`customer-management-${customer.id}`, onClose);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
