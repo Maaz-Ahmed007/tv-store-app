@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 
-import CustomerDetailsModal from "../popups/CustomerDetails";
+import CustomerDetails from "../popups/CustomerDetails";
+import ExitConfirmaModal from "../modals/ExitConformModal";
 
 type Customer = {
 	id: string;
@@ -50,6 +51,52 @@ export default function SalesPage({
 	const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
 		null
 	);
+	const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+
+	// Handle back button on main page
+	useEffect(() => {
+		// Only add the event listener if no customer is selected
+		if (!selectedCustomer) {
+			const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+				// Show confirmation dialog when user tries to leave the page
+				e.preventDefault();
+				e.returnValue = "";
+				return "";
+			};
+
+			// Add event listener for page unload
+			window.addEventListener("beforeunload", handleBeforeUnload);
+
+			// Add event listener for back button
+			const handlePopState = () => {
+				// Prevent default navigation
+				window.history.pushState(null, "", window.location.href);
+				// Show our custom confirmation modal
+				setShowExitConfirmation(true);
+			};
+
+			// Push initial state to prevent immediate back navigation
+			window.history.pushState(null, "", window.location.href);
+			window.addEventListener("popstate", handlePopState);
+
+			return () => {
+				window.removeEventListener("beforeunload", handleBeforeUnload);
+				window.removeEventListener("popstate", handlePopState);
+			};
+		}
+	}, [selectedCustomer]);
+
+	// Handle exit confirmation
+	const handleExitConfirm = () => {
+		// Navigate away from the app
+		window.location.href = "/"; // Or any other destination
+	};
+
+	const handleExitCancel = () => {
+		setShowExitConfirmation(false);
+		// Push state again to reset the history
+		window.history.pushState(null, "", window.location.href);
+	};
 
 	return (
 		<div className="p-4 space-y-4 pb-[90px]">
@@ -58,15 +105,7 @@ export default function SalesPage({
 				{customers.map((customer) => (
 					<div
 						key={customer.id}
-						onClick={() => {
-							// Push a new history state when opening the customer details modal
-							window.history.pushState(
-								{ customerDetailsOpen: true },
-								"",
-								window.location.href
-							);
-							setSelectedCustomer(customer);
-						}}
+						onClick={() => setSelectedCustomer(customer)}
 						className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
 						<div>
 							<h3 className="font-semibold text-gray-800">
@@ -81,14 +120,21 @@ export default function SalesPage({
 				))}
 			</div>
 
-			{/* Customer Details Modal */}
+			{/* Customer Details Popup */}
 			{selectedCustomer && (
-				<CustomerDetailsModal
+				<CustomerDetails
 					customer={selectedCustomer}
 					products={products}
 					onClose={() => setSelectedCustomer(null)}
 				/>
 			)}
+
+			{/* Exit Confirmation Modal */}
+			<ExitConfirmaModal
+				isOpen={showExitConfirmation}
+				onConfirm={handleExitConfirm}
+				onCancel={handleExitCancel}
+			/>
 		</div>
 	);
 }

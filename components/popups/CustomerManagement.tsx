@@ -35,8 +35,7 @@ const CustomerManagement = ({
 	customer: Customer;
 	onClose: () => void;
 }) => {
-	// Use our custom hook to handle back button presses
-	useHistoryBack(onClose);
+	useHistoryBack(onClose, `customer-management-${customer.id}`);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
@@ -47,7 +46,7 @@ const CustomerManagement = ({
 					size="sm"
 					onClick={onClose}
 					className="mr-4">
-					<ChevronLeft />
+					<ChevronLeft size={18} />
 				</Button>
 				<h2 className="text-xl font-bold">Manage Customer</h2>
 			</div>
@@ -56,34 +55,22 @@ const CustomerManagement = ({
 			<div className="p-4 space-y-4">
 				<div className="space-y-3">
 					<div>
-						<label className="block text-sm font-medium text-gray-700">
+						<h2 className="block text-sm font-medium text-gray-700">
 							Full Name
-						</label>
-						<input
-							type="text"
-							defaultValue={customer.name}
-							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-						/>
+						</h2>
+						<label>{customer.name}</label>
 					</div>
 					<div>
-						<label className="block text-sm font-medium text-gray-700">
+						<h2 className="block text-sm font-medium text-gray-700">
 							Email
-						</label>
-						<input
-							type="email"
-							defaultValue={customer.email}
-							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-						/>
+						</h2>
+						<label>{customer.email}</label>
 					</div>
 					<div>
-						<label className="block text-sm font-medium text-gray-700">
+						<h2 className="block text-sm font-medium text-gray-700">
 							Phone Number
-						</label>
-						<input
-							type="tel"
-							defaultValue={customer.phone}
-							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-						/>
+						</h2>
+						<label>{customer.phone}</label>
 					</div>
 				</div>
 			</div>

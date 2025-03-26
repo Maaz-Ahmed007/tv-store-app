@@ -10,10 +10,9 @@ import {
 	ShoppingCart,
 } from "lucide-react";
 
-import { useHistoryBack } from "@/hooks/useHistoryBack";
-
 import Button from "../Button";
 import CustomerManagement from "./CustomerManagement";
+import { useHistoryBack } from "@/hooks/useHistoryBack";
 
 type Customer = {
 	id: string;
@@ -50,7 +49,7 @@ type Product = {
 	imageUrl: string;
 };
 
-const CustomerDetailsModal = ({
+const CustomerDetails = ({
 	customer,
 	products,
 	onClose,
@@ -61,21 +60,17 @@ const CustomerDetailsModal = ({
 }) => {
 	const [showManageCustomer, setShowManageCustomer] = useState(false);
 
-	// Use our custom hook to handle back button presses
-	useHistoryBack(() => {
-		if (showManageCustomer) {
-			// If the management modal is open, close it first
-			setShowManageCustomer(false);
-		} else {
-			// Otherwise close the customer details modal
-			onClose();
-		}
-	});
+	// Use our improved hook for this modal
+	useHistoryBack(
+		onClose,
+		`customer-details-${customer.id}`,
+		!showManageCustomer
+	);
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
 			{/* Header */}
-			<div className="sticky top-0 bg-white shadow-sm p-4 flex items-center justify-between">
+			<div className="sticky top-0 bg-white shadow-sm p-4 flex items-center gap-4">
 				<Button
 					variant="secondary"
 					size="sm"
@@ -83,17 +78,13 @@ const CustomerDetailsModal = ({
 					className="mr-4">
 					<ChevronLeft size={18} />
 				</Button>
-				<h2 className="text-xl font-bold">{customer.name}</h2>
+				<h2 className="text-xl font-bold cursor-pointer">
+					{customer.name}
+				</h2>
 				<Button
 					variant="secondary"
 					size="sm"
 					onClick={() => {
-						// Push a new history state when opening the management modal
-						window.history.pushState(
-							{ managementOpen: true },
-							"",
-							window.location.href
-						);
 						setShowManageCustomer(true);
 					}}
 					className="ml-2">
@@ -254,14 +245,11 @@ const CustomerDetailsModal = ({
 			{showManageCustomer && (
 				<CustomerManagement
 					customer={customer}
-					onClose={() => {
-						// Go back in history when closing the management modal
-						window.history.back();
-					}}
+					onClose={() => setShowManageCustomer(false)}
 				/>
 			)}
 		</div>
 	);
 };
 
-export default CustomerDetailsModal;
+export default CustomerDetails;
