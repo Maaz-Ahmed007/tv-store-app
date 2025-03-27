@@ -5,7 +5,6 @@ import {
 	ChevronLeft,
 	DollarSign,
 	FileText,
-	MoreVertical,
 	ShoppingCart,
 } from "lucide-react";
 

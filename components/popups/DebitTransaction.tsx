@@ -46,7 +46,7 @@ type Props = {
 	customer: Customer;
 	products: Product[];
 	onClose: () => void;
-	onSubmit: (transaction: any) => void;
+	onSubmit: (transaction: Transaction) => void;
 };
 
 const DebitTransaction = ({ customer, products, onClose, onSubmit }: Props) => {
@@ -64,28 +64,6 @@ const DebitTransaction = ({ customer, products, onClose, onSubmit }: Props) => {
 
 	const handleSubmit = () => {
 		if (!selectedProduct) return;
-
-		const totalAmount = selectedProduct.price * quantity;
-		const transaction = {
-			type: "sale",
-			productId: selectedProduct.id,
-			amount: totalAmount,
-			quantity,
-			paymentMethod,
-			date: new Date().toISOString(),
-			installmentDetails:
-				paymentMethod === "installment"
-					? {
-							totalInstallments:
-								installmentDetails.totalInstallments,
-							initialPayment: installmentDetails.initialPayment,
-							remainingBalance:
-								totalAmount - installmentDetails.initialPayment,
-					  }
-					: undefined,
-		};
-
-		onSubmit(transaction);
 	};
 
 	useHistoryBack(`debit-transaction-${customer.id}`, onClose);
