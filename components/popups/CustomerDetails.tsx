@@ -3,16 +3,19 @@
 import { useState } from "react";
 import {
 	ChevronLeft,
-	CreditCard,
 	DollarSign,
 	FileText,
 	MoreVertical,
 	ShoppingCart,
 } from "lucide-react";
 
-import Button from "../Button";
-import CustomerManagement from "./CustomerManagement";
 import { useHistoryBack } from "@/hooks/useHistoryBack";
+
+import {Button} from "../Button";
+import CustomerManagement from "./CustomerManagement";
+import DebitTransaction from "./DebitTransaction";
+import CreditTransaction from "./CreditTransaction";
+import TransactionDetails from "./TransactionDetails";
 
 type Customer = {
 	id: string;
@@ -59,8 +62,48 @@ const CustomerDetails = ({
 	onClose: () => void;
 }) => {
 	const [showManageCustomer, setShowManageCustomer] = useState(false);
+	const [showDebitTransaction, setShowDebitTransaction] = useState(false);
+	const [showCreditTransaction, setShowCreditTransaction] = useState(false);
+	const [selectedTransaction, setSelectedTransaction] =
+		useState<Transaction | null>(null);
 
 	useHistoryBack(`customer-details-${customer.id}`, onClose);
+
+	const handleAddTransaction = (transaction: Transaction) => {
+		// In a real app, this would be an API call
+		// For now, we'll simulate adding the transaction
+		const newTransaction = {
+			...transaction,
+			id: `t${customer.transactions.length + 1}`,
+		};
+
+		// Update customer's financial details
+		const updatedCustomer = {
+			...customer,
+			transactions: [...customer.transactions, newTransaction],
+			totalPurchases:
+				transaction.type === "sale"
+					? customer.totalPurchases + transaction.amount
+					: customer.totalPurchases,
+			totalPaid:
+				transaction.type === "payment"
+					? customer.totalPaid + transaction.amount
+					: customer.totalPaid,
+			remainingBalance:
+				transaction.type === "sale"
+					? customer.remainingBalance + transaction.amount
+					: transaction.type === "payment"
+					? customer.remainingBalance - transaction.amount
+					: customer.remainingBalance,
+		};
+
+		// Reset transaction popups
+		setShowDebitTransaction(false);
+		setShowCreditTransaction(false);
+
+		// In a real app, you would update the customer in the database
+		console.log("Updated Customer:", updatedCustomer);
+	};
 
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
@@ -101,7 +144,9 @@ const CustomerDetails = ({
 						</p>
 					</div>
 					<div>
-						<p className="text-xs text-gray-600">Remaining</p>
+						<p className="text-xs text-gray-600">
+							Remaining Balance
+						</p>
 						<p className="font-bold text-lg text-red-600">
 							${customer.remainingBalance.toFixed(2)}
 						</p>
@@ -119,7 +164,8 @@ const CustomerDetails = ({
 				{customer.transactions.map((transaction) => (
 					<div
 						key={transaction.id}
-						className="bg-white border rounded-lg p-3 mb-3 shadow-sm flex items-center">
+						onClick={() => setSelectedTransaction(transaction)}
+						className="bg-white border rounded-lg p-3 mb-3 shadow-sm flex items-center cursor-pointer hover:bg-gray-50">
 						<div className="flex-grow">
 							<div className="flex justify-between">
 								<span className="font-medium">
@@ -137,7 +183,9 @@ const CustomerDetails = ({
 											? "bg-green-100 text-green-800"
 											: "bg-red-100 text-red-800"
 									}`}>
-									{transaction.date}
+									{new Date(
+										transaction.date
+									).toLocaleDateString()}
 								</span>
 							</div>
 
@@ -172,73 +220,60 @@ const CustomerDetails = ({
 									{transaction.amount.toFixed(2)}
 								</span>
 							</div>
-
-							{transaction.installmentDetails && (
-								<div className="mt-2 bg-gray-100 rounded p-2">
-									<div className="flex justify-between text-xs">
-										<span>Installments</span>
-										<span>
-											{
-												transaction.installmentDetails
-													.paidInstallments
-											}{" "}
-											/
-											{
-												transaction.installmentDetails
-													.totalInstallments
-											}
-										</span>
-									</div>
-									<div className="mt-1 bg-gray-300 rounded-full h-2">
-										<div
-											className="bg-blue-500 rounded-full h-2"
-											style={{
-												width: `${
-													(transaction
-														.installmentDetails
-														.paidInstallments /
-														transaction
-															.installmentDetails
-															.totalInstallments) *
-													100
-												}%`,
-											}}
-										/>
-									</div>
-								</div>
-							)}
 						</div>
 					</div>
 				))}
 			</div>
 
 			{/* Quick Actions */}
-			<div className="p-4 grid grid-cols-3 gap-3">
+			<div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t grid grid-cols-2 gap-4">
 				<Button
-					variant="secondary"
-					className="flex flex-col items-center py-3">
-					<CreditCard className="mb-1" />
-					<span className="text-xs">New Payment</span>
-				</Button>
-				<Button
-					variant="secondary"
-					className="flex flex-col items-center py-3">
+					variant="primary"
+					className="flex flex-col items-center py-3"
+					onClick={() => setShowDebitTransaction(true)}>
 					<ShoppingCart className="mb-1" />
 					<span className="text-xs">New Sale</span>
 				</Button>
 				<Button
 					variant="secondary"
-					className="flex flex-col items-center py-3">
+					className="flex flex-col items-center py-3"
+					onClick={() => setShowCreditTransaction(true)}>
 					<DollarSign className="mb-1" />
-					<span className="text-xs">Installment Plan</span>
+					<span className="text-xs">Receive Payment</span>
 				</Button>
 			</div>
 
-			{/* Customer Management Popup */}
+			{/* Popups */}
 			{showManageCustomer && (
 				<CustomerManagement
 					customer={customer}
 					onClose={() => setShowManageCustomer(false)}
+				/>
+			)}
+
+			{showDebitTransaction && (
+				<DebitTransaction
+					customer={customer}
+					products={products}
+					onClose={() => setShowDebitTransaction(false)}
+					onSubmit={handleAddTransaction}
+				/>
+			)}
+
+			{showCreditTransaction && (
+				<CreditTransaction
+					customer={customer}
+					onClose={() => setShowCreditTransaction(false)}
+					onSubmit={handleAddTransaction}
+				/>
+			)}
+
+			{selectedTransaction && (
+				<TransactionDetails
+					transaction={selectedTransaction}
+					customer={customer}
+					products={products}
+					onClose={() => setSelectedTransaction(null)}
 				/>
 			)}
 		</div>

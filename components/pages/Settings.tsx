@@ -1,5 +1,5 @@
 import { Edit } from "lucide-react";
-import Button from "../Button";
+import { Button } from "../Button";
 
 export default function SettingsPage() {
 	return (

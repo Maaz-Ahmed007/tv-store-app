@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ShoppingCart, Settings, Smartphone, RefreshCw } from "lucide-react";
 
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 import generateMockData from "@/components/GenerateMockData";
 
 import SalesPage from "@/components/pages/Sales";
@@ -11,7 +11,6 @@ import ProductsPage from "@/components/pages/Products";
 import SettingsPage from "@/components/pages/Settings";
 
 export default function Page() {
-
 	const [currentPage, setCurrentPage] = useState<
 		"sales" | "products" | "settings"
 	>("sales");
