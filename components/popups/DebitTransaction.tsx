@@ -123,7 +123,12 @@ const DebitTransaction = ({ customer, products, onClose }: Props) => {
 					<select
 						value={paymentMethod}
 						onChange={(e) =>
-							setPaymentMethod(e.target.value as any)
+							setPaymentMethod(
+								e.target.value as
+									| "cash"
+									| "credit"
+									| "installment"
+							)
 						}
 						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
 						<option value="cash">Cash</option>
