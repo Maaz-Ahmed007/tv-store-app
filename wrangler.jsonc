@@ -1,0 +1,5 @@
+{
+	"name": "worker-name",
+	"compatibility_date": "2025-03-27",
+	"main": "@/layout.tsx"
+}
