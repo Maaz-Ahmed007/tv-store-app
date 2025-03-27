@@ -49,7 +49,7 @@ type Props = {
 	onSubmit: (transaction: Transaction) => void;
 };
 
-const DebitTransaction = ({ customer, products, onClose, onSubmit }: Props) => {
+const DebitTransaction = ({ customer, products, onClose }: Props) => {
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(
 		null
 	);
