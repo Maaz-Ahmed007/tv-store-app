@@ -11,7 +11,7 @@ import {
 
 import { useHistoryBack } from "@/hooks/useHistoryBack";
 
-import {Button} from "../Button";
+import { Button } from "../Button";
 import CustomerManagement from "./CustomerManagement";
 import DebitTransaction from "./DebitTransaction";
 import CreditTransaction from "./CreditTransaction";
@@ -116,16 +116,11 @@ const CustomerDetails = ({
 					className="mr-4">
 					<ChevronLeft size={18} />
 				</Button>
-				<h2 className="text-xl font-bold cursor-pointer">
+				<h2
+					className="text-xl font-bold cursor-pointer"
+					onClick={() => setShowManageCustomer(true)}>
 					{customer.name}
 				</h2>
-				<Button
-					variant="secondary"
-					size="sm"
-					onClick={() => setShowManageCustomer(true)}
-					className="ml-2">
-					<MoreVertical size={18} />
-				</Button>
 			</div>
 
 			{/* Financial Summary */}

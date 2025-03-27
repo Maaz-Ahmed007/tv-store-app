@@ -1,6 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 
-import Button from "../Button";
+import { Button } from "../Button";
 import { useHistoryBack } from "@/hooks/useHistoryBack";
 
 type Customer = {
