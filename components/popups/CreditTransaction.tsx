@@ -35,27 +35,18 @@ type Transaction = {
 type Props = {
 	customer: Customer;
 	onClose: () => void;
-	onSubmit: (transaction: any) => void;
+	onSubmit: (transaction: Transaction) => void;
 };
 
-const CreditTransaction = ({ customer, onClose, onSubmit }: Props) => {
+const CreditTransaction = ({ customer, onClose }: Props) => {
 	const [amount, setAmount] = useState("");
 	const [paymentMethod, setPaymentMethod] = useState<
-		"cash" | "bank" | "online"
+		"cash" | "credit" | "installment"
 	>("cash");
 
 	const handleSubmit = () => {
 		const numericAmount = parseFloat(amount);
 		if (isNaN(numericAmount) || numericAmount <= 0) return;
-
-		const transaction = {
-			type: "payment",
-			amount: numericAmount,
-			paymentMethod,
-			date: new Date().toISOString(),
-		};
-
-		onSubmit(transaction);
 	};
 
 	useHistoryBack(`credit-transaction-${customer.id}`, onClose);
@@ -92,7 +83,12 @@ const CreditTransaction = ({ customer, onClose, onSubmit }: Props) => {
 					<select
 						value={paymentMethod}
 						onChange={(e) =>
-							setPaymentMethod(e.target.value as any)
+							setPaymentMethod(
+								e.target.value as
+									| "cash"
+									| "credit"
+									| "installment"
+							)
 						}
 						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
 						<option value="cash">Cash</option>
