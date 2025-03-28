@@ -24,6 +24,7 @@
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.10",
     "@eslint/eslintrc": "^3",
+    "@opennextjs/cloudflare": "^0.6.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
