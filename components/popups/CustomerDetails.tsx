@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, DollarSign, FileText, ShoppingCart } from "lucide-react";
+import { Bolt, ChevronLeft, DollarSign, Edit, FileText, Pencil, Settings, ShoppingCart } from "lucide-react";
 
 import { useHistoryBack } from "@/hooks/useHistoryBack";
 
@@ -102,7 +102,7 @@ const CustomerDetails = ({
 	return (
 		<div className="fixed inset-0 z-50 bg-white overflow-y-auto animate-slideIn">
 			{/* Header */}
-			<div className="sticky top-0 bg-white shadow-sm p-4 flex items-center gap-4">
+			<div className="sticky top-0 bg-white shadow-sm p-4 flex items-center justify-between gap-4">
 				<Button
 					variant="secondary"
 					size="sm"
@@ -111,10 +111,17 @@ const CustomerDetails = ({
 					<ChevronLeft size={18} />
 				</Button>
 				<h2
-					className="text-xl font-bold cursor-pointer"
+					className="text-xl font-bold"
 					onClick={() => setShowManageCustomer(true)}>
 					{customer.name}
 				</h2>
+				<Button
+					variant="secondary"
+					size="sm"
+					onClick={() => setShowManageCustomer(true)}
+					>
+					<Bolt size={18} />
+				</Button>
 			</div>
 
 			{/* Financial Summary */}
@@ -145,7 +152,7 @@ const CustomerDetails = ({
 
 			{/* Transactions Section */}
 			<div
-				className="p-4 pb-20 flex-grow overflow-y-auto overscroll-contain touch-pan-y"
+				className="p-4 pb-16 flex-grow overflow-y-auto overscroll-contain touch-pan-y"
 				style={{
 					// Prevent pull-to-refresh and bouncy scrolling on iOS
 					WebkitOverflowScrolling: "touch",
