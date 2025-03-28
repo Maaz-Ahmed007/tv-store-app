@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-	ChevronLeft,
-	DollarSign,
-	FileText,
-	ShoppingCart,
-} from "lucide-react";
+import { ChevronLeft, DollarSign, FileText, ShoppingCart } from "lucide-react";
 
 import { useHistoryBack } from "@/hooks/useHistoryBack";
 
@@ -149,7 +144,13 @@ const CustomerDetails = ({
 			</div>
 
 			{/* Transactions Section */}
-			<div className="p-4">
+			<div
+				className="p-4 pb-20 flex-grow overflow-y-auto overscroll-contain touch-pan-y"
+				style={{
+					// Prevent pull-to-refresh and bouncy scrolling on iOS
+					WebkitOverflowScrolling: "touch",
+					overscrollBehavior: "contain",
+				}}>
 				<h3 className="text-lg font-semibold mb-4 flex items-center">
 					<FileText className="mr-2 text-gray-600" />
 					Transactions History
@@ -220,20 +221,22 @@ const CustomerDetails = ({
 			</div>
 
 			{/* Quick Actions */}
-			<div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t grid grid-cols-2 gap-4">
+			<div className="fixed bottom-0 left-0 right-0 px-8 py-4 flex justify-center items-center gap-4">
 				<Button
-					variant="primary"
-					className="flex flex-col items-center py-3"
+					variant="purchase"
+					size="lg"
+					className="flex justify-center items-center gap-1 w-full"
 					onClick={() => setShowDebitTransaction(true)}>
-					<ShoppingCart className="mb-1" />
-					<span className="text-xs">New Sale</span>
+					<ShoppingCart size={20} className="mb-1" />
+					<span className="text-sm font-semibold">Purchase</span>
 				</Button>
 				<Button
-					variant="secondary"
-					className="flex flex-col items-center py-3"
+					variant="payment"
+					size="lg"
+					className="flex justify-center items-center gap-1 w-full"
 					onClick={() => setShowCreditTransaction(true)}>
-					<DollarSign className="mb-1" />
-					<span className="text-xs">Receive Payment</span>
+					<DollarSign size={20} className="mb-1" />
+					<span className="text-sm font-semibold">Payment</span>
 				</Button>
 			</div>
 

@@ -4,3 +4,6 @@ Customer Details Page will handle most of the finance of this application. In cu
 
 Make sure User can download customer's complete data and each transaction.
 Make sure User can share customer's complete data and each transaction to whatsapp.
+
+
+In the customer details page, Transaction history card should have a bottom padding so it does not gets under the action buttons.
