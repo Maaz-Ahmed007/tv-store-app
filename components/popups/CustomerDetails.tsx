@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Bolt, ChevronLeft, DollarSign, Edit, FileText, Pencil, Settings, ShoppingCart } from "lucide-react";
+import {
+	Bolt,
+	ChevronLeft,
+	DollarSign,
+	FileText,
+	ShoppingCart,
+} from "lucide-react";
 
 import { useHistoryBack } from "@/hooks/useHistoryBack";
 
@@ -118,8 +124,7 @@ const CustomerDetails = ({
 				<Button
 					variant="secondary"
 					size="sm"
-					onClick={() => setShowManageCustomer(true)}
-					>
+					onClick={() => setShowManageCustomer(true)}>
 					<Bolt size={18} />
 				</Button>
 			</div>
